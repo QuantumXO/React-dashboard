@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom' // must be for routing!!!!!
@@ -24,7 +22,7 @@ class App extends Component{
         return(
             <div className='app-wrap' >
                 <Header />
-                <div className="main-wrapper">
+                <div className="flex-container">
                     <Aside />
                     <main>
                         <Routes />
