@@ -8,6 +8,7 @@ import RevenueBlock from './../../components/home/revenueBlock'
 import NewOrdersBlock from './../../components/home/newOrdersBlock'
 import PendingOrdersBlock from './../../components/home/pendingOrdersBlock'
 import ReviewsBlock from './../../components/home/ReviewsBlock'
+import NewCustomersBlock from './../../components/home/NewCustomersBlock'
 
 class Home extends Component{
 
@@ -45,6 +46,7 @@ class Home extends Component{
 
                 <div className="home__inner">
                     <ReviewsBlock />
+                    <NewCustomersBlock />
                 </div>
 
             </div>

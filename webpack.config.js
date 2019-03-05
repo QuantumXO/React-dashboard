@@ -30,16 +30,34 @@ module.exports = {
             {
                 test: /\.sass$/,
                 exclude: /node_modules/,
+                include: [
+                    path.resolve(__dirname, 'app/client/styles/_basic.sass'),
+                    path.resolve(__dirname, 'app/client/containers'),
+                    path.resolve(__dirname, 'app/client/components'),
+                ],
                 use: [
                     isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
-                            minimize: isProduction
+                            minimize: isProduction,
+                            //url: isProduction,
+                            //import: isProduction,
+                            //importLoaders: isProduction ? 2 : 0
                         }
                     },
-                    'resolve-url-loader',
-                    'sass-loader'
+                    /*'resolve-url-loader',*/
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            //exec: true,
+                            config: {
+                                path: './postcss.config.js'
+                            }
+                        }
+                    },
+
+                    { loader: 'sass-loader' },
                 ]
             },
             {
@@ -84,9 +102,14 @@ module.exports = {
                     compress: {
                         inline: false,
                         warnings: false,
+                        unused: true,
                         drop_console: true,
-                        unsafe: true
+                        unsafe: true,
+                        loops: true
                     },
+                    output: {
+                        beautify: false,
+                    }
                 },
             }),
         ],
