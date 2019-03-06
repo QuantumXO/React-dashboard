@@ -4,6 +4,8 @@ import './_orders.sass'
 
 import React, { Component } from 'react'
 
+import { Helmet } from "react-helmet"
+
 import OrdersSearch from './../../components/orders/search'
 
 class Orders extends Component{
@@ -11,6 +13,11 @@ class Orders extends Component{
     render() {
         return(
             <div className='orders__wrap clearfix'>
+
+                <Helmet>
+                    <title>Orders page</title>
+                </Helmet>
+
                 <div className="orders__header">
                     <h2 className="default__title">Orders Lists</h2>
                     <div className="orders__settings">

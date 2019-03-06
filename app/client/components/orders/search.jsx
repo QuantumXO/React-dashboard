@@ -3,6 +3,8 @@
 
 import React, {PureComponent} from 'react'
 
+import ReactDOM from 'react-dom'
+
 class OrdersSearch extends PureComponent{
 
     constructor(props){
@@ -16,7 +18,7 @@ class OrdersSearch extends PureComponent{
 
     componentDidMount(){
 
-        document.addEventListener('click', function (e) {
+        document.body.addEventListener('click', function (e) {
 
             const el = document.getElementById('ordersSearch');
             const label = document.querySelector('.orders__search__wrap label');
@@ -26,6 +28,7 @@ class OrdersSearch extends PureComponent{
                 elWrap.classList.remove('active');
 
         });
+
 
     }
 
@@ -37,9 +40,20 @@ class OrdersSearch extends PureComponent{
         this.setState({fieldIsActive: true});
     }
 
+    getWrapRef(node){
+
+
+        const testWrap = ReactDOM.findDOMNode(this._wrap);
+
+        console.log(testWrap);
+
+        return this._wrap = node;
+
+    }
+
     render() {
         return(
-            <div className={this.state.fieldIsActive ? "orders__search__wrap clearfix active" : "orders__search__wrap clearfix"}  >
+            <div className={this.state.fieldIsActive ? "orders__search__wrap clearfix active" : "orders__search__wrap clearfix"} ref={this.getWrapRef}  >
                 <label>Search</label>
                 <input type="text" id='ordersSearch'
                        onClick={this.handleFieldState.bind(this)}

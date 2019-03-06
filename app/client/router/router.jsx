@@ -16,9 +16,9 @@ import Admin from "../containers/admin";*/
 const Routes = () => {
     return(
         <Switch>
-            {/*<Route exact path='/' component={Home} />*/}
+            <Route exact path='/' component={Orders} />
             <Route path='/customers' component={Customers} />
-            <Route path='/' component={Orders} />
+            {/*<Route path='/' component={Orders} />*/}
             {/*<Route path='/order/:id' component={Order} />
             <Route path='/admin' component={Admin} />*/}
         </Switch>

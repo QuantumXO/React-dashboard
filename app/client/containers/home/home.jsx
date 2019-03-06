@@ -2,7 +2,8 @@
 
 import './_home.sass'
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { Helmet } from "react-helmet"
 
 import RevenueBlock from './../../components/home/revenueBlock'
 import NewOrdersBlock from './../../components/home/newOrdersBlock'
@@ -15,12 +16,14 @@ class Home extends Component{
     render(){
         return(
             <div className='home__wrap clearfix'>
+                <Helmet>
+                    <title>Home page</title>
+                </Helmet>
 
                 <div className="home__inner">
                     <div className="flex-container">
                         <RevenueBlock />
                         <NewOrdersBlock />
-
                     </div>
 
                     <div className="home__block standard">

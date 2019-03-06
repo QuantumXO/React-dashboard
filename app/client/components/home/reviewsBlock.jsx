@@ -2,6 +2,7 @@
 'use strict';
 
 import React, {PureComponent} from 'react'
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 
 import Stars from './stars'
@@ -15,6 +16,9 @@ const reviewsListArr = [
 
 class ReviewsBlock extends PureComponent{
 
+    componentDidMount(){
+
+    }
 
     render(){
 

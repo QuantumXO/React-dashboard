@@ -13,7 +13,7 @@ import App from "./containers/app";
 
 const store = configureStore();
 
-ReactDOM.render(
+ReactDOM.hydrate(
     <Provider store={store}>
         <BrowserRouter>
             <App />
