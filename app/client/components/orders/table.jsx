@@ -4,25 +4,83 @@ import React, { PureComponent } from 'react'
 // Router
 import { Link } from 'react-router-dom'
 
+import SortBtn from './sortBtn'
+
 class OrdersTable extends PureComponent{
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            sortBy: '',
+            counter: 0,
+            checkedAll: false,
+            checkedItems: [],
+            direction: true // from begin
+        };
+
+        this._checkAll.bind(this);
+
+    }
+
+    _changeStateCheckItem(itemId){
+
+        let checkedItemsState = this.state.checkedItems;
+
+        if(checkedItemsState.indexOf(itemId)){
+
+            this.setState({
+                checkedItems: checkedItemsState.splice(checkedItemsState.indexOf(itemId), 1)
+                checkedItems: checkedItemsState.splice(checkedItemsState.indexOf(itemId), 1)
+            });
+
+        }else{
+            this.setState({
+                checkedItems: checkedItemsState.push(itemId)
+            });
+
+        }
+
+    }
+
+    _checkAll(){
+
+        this.setState({
+            checkedAll: !this.state.checkedAll
+        });
+    }
+
+    _sort(type){
+
+        let direction = '';
+
+        const sortBy = this.state.sortBy;
+
+        if(sortBy == type){
+            direction = !this.state.direction;
+        }else
+            direction = true;
+
+        this.setState({
+            sortBy: type,
+            direction: direction,
+        });
+
+    }
 
     render() {
 
         const orders = this.props.ordersList;
 
         const ordersList = orders.map((item, i) =>
-
             <tr key={i}>
-                <td>
-                    <span className='checked--all'>
-                        {/*<svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                <td className={'check--col'}>
+                    <span className='check--item' onClick={this._changeStateCheckItem.bind(this, item.id)}>
+                        <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                             {!this.state.checkedAll?
                                 <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/> :
                                 <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                             }
-                        </svg>*/}
-                        <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
                         </svg>
                         <input type="checkbox" />
                     </span>
@@ -60,37 +118,34 @@ class OrdersTable extends PureComponent{
             <table className="orders__list__table">
                 <thead className='orders__list__thead'>
                     <tr>
-                        <th>
-                            <span className='checkbox--all' >
+                        <th className={'check--col'}>
+                            <span className='check--all' onClick={this._checkAll.bind(this)} >
                                 <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                                    {!this.state.checkedAll?
+                                        <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/> :
+                                        <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                    }
                                 </svg>
                                 <input type="checkbox" />
                             </span>
                         </th>
                         <th>
-                            <span className={'date'}>
-                                Date
-                                <svg width='16' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d='M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z' />
-                                </svg>
-                            </span>
+                            <SortBtn sortFunc={this._sort.bind(this)}
+                                title={'Date'} active={this.state.sortBy}
+                                 direction={this.state.direction} btnClass={'date'}
+                            />
                         </th>
                         <th>
-                            <span className={'reference'} >
-                                Reference
-                                <svg width='16' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
-                                </svg>
-                            </span>
+                            <SortBtn sortFunc={this._sort.bind(this)}
+                                title={'Reference'} active={this.state.sortBy}
+                                direction={this.state.direction} btnClass={'reference'}
+                            />
                         </th>
                         <th>
-                            <span className={'customer'} >
-                                Customer
-                                <svg width='16' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
-                                </svg>
-                            </span>
+                            <SortBtn sortFunc={this._sort.bind(this)}
+                                title={'Customer'} active={this.state.sortBy}
+                                direction={this.state.direction} btnClass={'customer'}
+                            />
                         </th>
                         <th className=''>
                             <span className='nb-items'>
@@ -98,29 +153,26 @@ class OrdersTable extends PureComponent{
                             </span>
                         </th>
                         <th>
-                            <span className={'total'} >
-                                Total
-                                <svg width='16' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
-                                </svg>
-                            </span>
+                            <SortBtn sortFunc={this._sort.bind(this)}
+                                title={'Total'} active={this.state.sortBy}
+                                direction={this.state.direction} btnClass={'total'}
+                            />
                         </th>
                         <th>
-                            <span className={'status'} >
-                                Status
-                                <svg width='16' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
-                                </svg>
-                            </span>
+                            <SortBtn sortFunc={this._sort.bind(this)}
+                                title={'Status'} active={this.state.sortBy}
+                                direction={this.state.direction} btnClass={'status'}
+                            />
                         </th>
                         <th>
-                            <span className={'returned'}>
-                                Returned
-                                <svg width='16' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
-                                </svg>
-                            </span>
+
+                            <SortBtn sortFunc={this._sort.bind(this)}
+                                title={'Returned'} active={this.state.sortBy}
+                                direction={this.state.direction} btnClass={'returned'}
+                            />
+
                         </th>
+                        <th />
                     </tr>
                 </thead>
                 <tbody className='orders__list__tbody'>

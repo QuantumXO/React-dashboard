@@ -1,0 +1,28 @@
+/////////// Variables ///////////
+$QVGA: 320px  // x 240px
+$VGA:  640px  // x 480px
+$SXGA: 1280px // x 1024px
+$HDTV: 1920px // x 1080px
+
+$browser-context: 16 // Default (in px)
+
+@function em($pixels, $context: $browser-context)
+	@return #{$pixels/$context}em
+
+.clearfix::after 
+	display: block
+	content: ""
+	clear: both
+	
+
+@mixin input-placeholder
+	&.placeholder
+		@content
+	&:-moz-placeholder
+		@content
+	&::-moz-placeholder
+		@content
+	&:-ms-input-placeholder
+		@content
+	&::-webkit-input-placeholder
+		@content

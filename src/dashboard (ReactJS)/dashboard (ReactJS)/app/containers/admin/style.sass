@@ -1,0 +1,65 @@
+$browser-context: 16 // Default (in px)
+
+@function em($pixels, $context: $browser-context)
+  @return #{$pixels/$context}em
+
+.admin__wrap-top
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  justify-content: space-around
+  .admin__block
+    width: 33.3333%
+    max-width: 250px
+  .admin__block-content
+    display: flex
+    align-items: center
+    justify-content: space-between
+  .block__content-icon
+    padding: 10px
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    border: 3px solid #fff
+    svg
+      width: 19px
+      fill: #fff
+.admin__block
+  //min-height: 54px
+  padding: 15px
+  border: 1px solid transparent
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12)
+.admin__block.members-online
+  border-color: #187da0
+  background-color: #20a8d8
+.admin__block.vip-members
+  border-color: #c2255c
+  background-color: #e64980
+.admin__block.banned-members
+  border-color: red
+  background-color: rgb(244, 67, 54)
+.admin__block.reg-members
+  border-color: darkgreen
+  background-color: rgb(76, 175, 80)
+.admin__block-header
+  display: flex
+  color: #ffffff
+  margin-bottom: .2em
+  align-items: flex-start
+  justify-content: space-between
+.block__content-count
+  color: #ffffff
+  font: 700 em(25)/1.2 "Roboto", "Helvetica", "Arial", sans-serif;
+.block__header-sbt
+  font-size: em(14)
+
+
+
+
+
+
+
+
+
+

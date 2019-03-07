@@ -1,0 +1,200 @@
+$browser-context: 16 // Default (in px)
+
+@function em($pixels, $context: $browser-context)
+  @return #{$pixels/$context}em
+
+.orders__list-wrap
+  padding: 24px
+  background-color: #ffffff
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12)
+.orders__list-header
+  display: flex
+  width: 100%
+  align-items: flex-start
+  justify-content: space-between
+.home__block-title
+  flex: 1
+.orders__list-btn
+  display: flex
+  color: #3f51b5
+  padding: 7px 8px
+  font-size: em(13)
+  border-radius: 2px
+  align-items: center
+  justify-content: center
+  text-transform: uppercase
+  transition: all .2s ease-in-out
+  cursor: pointer
+  svg
+    fill: #3f51b5
+    margin-right: 5px
+.orders__list-btn:first-child
+  margin-right: 10px
+.orders__list-btn:hover
+  background-color: rgba(63, 81, 181, 0.08)
+.orders__list-setings
+  .inner
+    display: flex
+    margin-bottom: 40px
+.search__block
+  float: right
+  width: 194.5px
+.search__block
+  display: inline-flex
+  position: relative
+  label
+    top: 50%
+    left: 0
+    position: absolute
+    transform: translate(0, -50%) scale(1)
+    transform-origin: top left
+    transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms
+    z-index: 0
+.search__block:after
+  left: 0
+  bottom: 0
+  width: 100%
+  height: 1px
+  content: ''
+  position: absolute
+  background-color: #000
+
+.search__block:hover:after,
+.search__block.focus:after
+  height: 2px
+    
+.search__block.focus
+  label
+    color: #3f51b5
+    transform: translate(0, -195%) scale(.75)
+.search__block.focus:after
+  background-color: #3f51b5
+
+.orders__list-search
+  border: 0
+  width: 100%
+  outline: none
+  display: block
+  position: relative
+  padding: 6px 0 7px
+  background: inherit
+  z-index: 99
+.orders__list-table
+  width: 100%
+  display: table
+  margin-top: 16px
+  border-spacing: 0
+  border-collapse: collapse
+.orders__list-thead
+  display: table-header-group
+  tr
+    height: 56px
+    display: table-row
+    vertical-align: middle
+    th
+      padding: 0 12px
+      color: rgba(0, 0, 0, 0.54)
+      border-bottom: 1px solid rgba(224, 224, 224, 1)
+      span
+        display: flex
+        font-size: em(13)
+        line-height: 54px
+        align-items: center
+        cursor: pointer
+        svg
+          display: none
+      span:not(.check__all)
+        svg
+          margin: 0 4px
+      span:not(.check__all).active,
+      span:not(.check__all):hover,
+      span:not(.nb-items):hover
+        color: rgba(0, 0, 0, 0.87)
+      span.active,
+      .check__all
+        svg
+          display: block
+      .nb-items
+        color: rgba(0, 0, 0, 0.54) !important
+        cursor: default
+    th:first-child
+      width: 75.5px
+      position: relative
+      .check__all
+        top: 50%
+        left: 12px
+        position: absolute
+        transform: translateY(-50%)
+    th:nth-child(2n)
+      padding: 0 12px
+.check__all
+  width: 24px
+  height: 24px
+  display: block
+  border-radius: 50%
+  position: relative
+  svg
+    cursor: pointer
+  [type='checkbox']
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+    opacity: 0
+    position: absolute
+    cursor: pointer
+.orders__list-tbody
+  tr
+    display: table-row
+    vertical-align: middle
+    border-bottom: 1px solid #e0e0e0
+    transition: background-color .2s ease-in-out
+    td
+      padding: 0 12px
+      line-height: 33px
+      vertical-align: middle
+      span
+        font-size: em(13)
+      .check__all
+        height: 47px
+        line-height: 63px
+  tr:hover
+    background-color: rgba(0, 0, 0, 0.07)
+.tbody__date
+  width: 216px
+.orders__list-link
+  display: flex
+  color: #3f51b5
+  align-items: center
+.tbody__nbItems,
+.tbody__total
+  text-align: right
+  flex-direction: row-reverse
+.tbody__total
+  font-weight: 700
+.orders__list-table-btn
+  display: flex
+  color: #3f51b5
+  width: 76px
+  padding: 3px 3px
+  font-size: 0.8125em
+  border-radius: 2px
+  align-items: center
+  text-decoration: none
+  justify-content: center
+  text-transform: uppercase
+  transition: all .2s ease-in-out
+  cursor: pointer
+  svg
+    fill: #3f51b5
+.orders__list-table-btn:hover
+  background-color: rgba(63, 81, 181, 0.08)
+.tbody__returned
+  span
+    height: 24px
+    display: block
+.tbody__edit
+  width: 113px
+
