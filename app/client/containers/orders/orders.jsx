@@ -5,8 +5,12 @@ import './_orders.sass'
 import React, { Component } from 'react'
 
 import { Helmet } from "react-helmet"
+import { bindActionCreators } from 'redux'
+// Store
+import { connect } from 'react-redux'
 
 import OrdersSearch from './../../components/orders/search'
+import OrdersTable from './../../components/orders/table'
 
 class Orders extends Component{
 
@@ -38,13 +42,24 @@ class Orders extends Component{
                         <OrdersSearch />
                     </div>
                 </div>
-
-                Orders.jsx
+                <OrdersTable ordersList={this.props.ordersList.orders} />
             </div>
         )
     }
 
 }
 
-export default Orders
+function mapStateToProps (state) {
+    return {
+        ordersList: state.ordersReducer
+    }
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        //authAction: bindActionCreators(authAction, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Orders)
 

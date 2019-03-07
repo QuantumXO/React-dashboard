@@ -43,7 +43,7 @@ class OrdersSearch extends PureComponent{
 
     render() {
         return(
-            <div className={this.state.fieldIsActive ? "orders__search__wrap clearfix active" : "orders__search__wrap clearfix"}
+            <div className={"orders__search__wrap clearfix"}
                  ref={this.getWrapRef}
             >
                 <label>Search</label>
