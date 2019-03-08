@@ -1,12 +1,14 @@
 'use strict';
 
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 // Router
 import { Link } from 'react-router-dom'
 
 import SortBtn from './sortBtn'
 
-class OrdersTable extends PureComponent{
+
+
+class OrdersTable extends Component{
 
     constructor(props){
         super(props);
@@ -14,8 +16,10 @@ class OrdersTable extends PureComponent{
         this.state = {
             sortBy: '',
             counter: 0,
+            searchValue: '',
             checkedAll: false,
             checkedItems: [],
+            data: this.props.ordersList,
             direction: true // from begin
         };
 
@@ -23,21 +27,26 @@ class OrdersTable extends PureComponent{
 
     }
 
+    /*shouldComponentUpdate(nextProps, nextState){
+
+        return nextProps.ordersList !== this.props.ordersList;
+
+    }*/
+
     _changeStateCheckItem(itemId){
 
         let checkedItemsState = this.state.checkedItems;
 
-        if(checkedItemsState.indexOf(itemId)){
+        if(checkedItemsState.indexOf(itemId) != -1){
 
             this.setState({
-                checkedItems: checkedItemsState.splice(checkedItemsState.indexOf(itemId), 1)
-                checkedItems: checkedItemsState.splice(checkedItemsState.indexOf(itemId), 1)
+                checkedItems: this.state.checkedItems.filter(item => item !== itemId)
             });
 
         }else{
             this.setState({
-                checkedItems: checkedItemsState.push(itemId)
-            });
+                checkedItems: this.state.checkedItems.concat([itemId])
+            })
 
         }
 
@@ -52,7 +61,7 @@ class OrdersTable extends PureComponent{
 
     _sort(type){
 
-        let direction = '';
+        let direction = this.state.direction;
 
         const sortBy = this.state.sortBy;
 
@@ -64,22 +73,55 @@ class OrdersTable extends PureComponent{
         this.setState({
             sortBy: type,
             direction: direction,
-        });
+        }, function(){});
+
 
     }
 
     render() {
 
-        const orders = this.props.ordersList;
+        const orders = this.state.data;
+        const sortBy = this.state.sortBy;
+        const direction = this.state.direction;
 
+        if(
+            sortBy == 'reference' ||
+            sortBy == 'customer' ||
+            sortBy == 'status' ||
+            sortBy == 'returned'
+        ){
+            orders.sort(function (A, B) {
+
+                A = A[sortBy].toLowerCase();
+                B = B[sortBy].toLowerCase();
+
+                if(A < B)
+                    return direction ? -1 : 1;
+                if(A > B)
+                    return direction ? 1 : -1;
+                return 0;
+
+            });
+        }else{
+            orders.sort(function(A, B){
+
+                A = Math.ceil(A[sortBy]);
+                B = Math.ceil(B[sortBy]);
+
+                return direction ? (A - B) : (B - A);
+            });
+        }
+
+        
         const ordersList = orders.map((item, i) =>
             <tr key={i}>
                 <td className={'check--col'}>
                     <span className='check--item' onClick={this._changeStateCheckItem.bind(this, item.id)}>
                         <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                            {!this.state.checkedAll?
-                                <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/> :
-                                <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            {this.state.checkedAll || (this.state.checkedItems.indexOf(item.id) !== -1) ?
+
+                                <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /> :
+                                <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
                             }
                         </svg>
                         <input type="checkbox" />
@@ -93,7 +135,7 @@ class OrdersTable extends PureComponent{
                         <span>{item.customer}</span>
                     </a>
                 </td>
-                <td className='tbody__nbItems'><span >{item.nbItems}</span></td>
+                <td className='tbody__nbItems'><span>{item.nbItems}</span></td>
                 <td className='tbody__total'><span>{item.total}&nbsp;$</span></td>
                 <td><span>{item.status}</span></td>
                 <td className='tbody__returned'>

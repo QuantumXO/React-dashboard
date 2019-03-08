@@ -3,10 +3,8 @@
 import './_orders.sass'
 
 import React, { Component } from 'react'
-
 import { Helmet } from "react-helmet"
 import { bindActionCreators } from 'redux'
-// Store
 import { connect } from 'react-redux'
 
 import OrdersSearch from './../../components/orders/search'
@@ -14,7 +12,54 @@ import OrdersTable from './../../components/orders/table'
 
 class Orders extends Component{
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            searchValue: '',
+            coincidence: '',
+            orders: this.props.ordersList.orders
+
+        };
+
+    }
+
+    _search(value){
+
+        this.setState({
+            searchValue: value
+        }, function () {
+
+        });
+
+    }
+
     render() {
+
+        const orders = this.state.orders;
+        let newOrdersArr = orders;
+
+        if(this.state.searchValue){
+            let searchValue = this.state.searchValue;
+            newOrdersArr = [];
+
+            for(let i=0; i < orders.length; i++){
+                let customer = orders[i].customer.toLowerCase();
+                if(
+                    orders[i].reference.match(searchValue) ||
+                    customer.match(searchValue) ||
+                    orders[i].status.match(searchValue) ||
+                    orders[i].time.match(searchValue) ||
+                    orders[i].total.match(searchValue) ||
+                    orders[i].date.match(searchValue)
+                ){
+                    newOrdersArr.push(orders[i]);
+                }
+            }
+
+            console.log('newOrdersArr: ', newOrdersArr);
+        }
+
         return(
             <div className='orders__wrap clearfix'>
 
@@ -39,10 +84,10 @@ class Orders extends Component{
                                 refresh
                             </span>
                         </div>
-                        <OrdersSearch />
+                        <OrdersSearch searchFunc={this._search.bind(this)} />
                     </div>
                 </div>
-                <OrdersTable ordersList={this.props.ordersList.orders} />
+                <OrdersTable ordersList={newOrdersArr} />
             </div>
         )
     }

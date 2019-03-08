@@ -12,7 +12,7 @@ class OrdersSearch extends PureComponent{
 
         this.state = {
             fieldIsActive: false,
-            fieldValue: ''
+            //fieldValue: ''
         };
 
         this.getWrapRef = React.createRef();
@@ -37,8 +37,12 @@ class OrdersSearch extends PureComponent{
 
     }
 
-    search(e){
-        this.setState({fieldValue: e.target.value.toLowerCase()});
+    _search(e){
+        //this.setState({fieldValue: e.target.value.toLowerCase()});
+
+        //console.log('search.jsx: ', e.target.value.toLowerCase());
+
+        this.props.searchFunc(e.target.value.toLowerCase());
     }
 
     render() {
@@ -48,7 +52,7 @@ class OrdersSearch extends PureComponent{
             >
                 <label>Search</label>
                 <input type="text" id='ordersSearch'
-                       onChange={this.search.bind(this)}
+                       onChange={this._search.bind(this)}
                        className='orders__search__field'
                        ref={this.getInputRef}
                 />
