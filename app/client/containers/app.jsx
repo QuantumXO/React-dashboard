@@ -16,14 +16,22 @@ class App extends Component{
     constructor(props){
         super(props);
 
+        this.state = {
+            menuLinksHide: ''
+        }
+    }
+
+    _changeMenuState(state){
+
+        this.setState({menuLinksHide: state});
     }
 
     render(){
         return(
             <div className='app-wrap' >
-                <Header />
+                <Header changeMenuStateFunc={this._changeMenuState.bind(this)} />
                 <div className="flex-container">
-                    <Aside />
+                    <Aside menuLinksHide={this.state.menuLinksHide} />
                     <main>
                         <Routes />
                     </main>

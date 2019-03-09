@@ -7,10 +7,17 @@ import { Helmet } from "react-helmet"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import Button from './../../components/default/button'
 import OrdersSearch from './../../components/orders/search'
 import OrdersTable from './../../components/orders/table'
 
-class Orders extends Component{
+
+const refreshBtnContent = '<svg width=\'24\' focusable="false" viewBox="0 0 24 24" aria-hidden="true">\n' +
+    '                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>\n' +
+    '                                </svg>\n' +
+    '                                refresh';
+
+class OrdersList extends Component{
 
     constructor(props){
         super(props);
@@ -21,6 +28,15 @@ class Orders extends Component{
             orders: this.props.ordersList.orders
 
         };
+
+        this._search = this._search.bind(this);
+        this._refresh = this._refresh.bind(this);
+
+    }
+
+    _refresh(){
+        console.log('this', this);
+        this.forceUpdate();
 
     }
 
@@ -57,7 +73,6 @@ class Orders extends Component{
                 }
             }
 
-            console.log('newOrdersArr: ', newOrdersArr);
         }
 
         return(
@@ -77,14 +92,19 @@ class Orders extends Component{
                                 </svg>
                                 add filter
                             </span>
-                            <span className="orders__inner__btn">
+                            {/*<span className="orders__inner__btn refresh" >
                                 <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
                                 </svg>
                                 refresh
-                            </span>
+                            </span>*/}
+                            <Button
+                                handleClickFunc={this._refresh}
+                                content={refreshBtnContent}
+                                classes={'orders__inner__btn refresh'}
+                            />
                         </div>
-                        <OrdersSearch searchFunc={this._search.bind(this)} />
+                        <OrdersSearch searchFunc={this._search} />
                     </div>
                 </div>
                 <OrdersTable ordersList={newOrdersArr} />
@@ -106,5 +126,5 @@ function mapDispatchToProps (dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders)
+export default connect(mapStateToProps, mapDispatchToProps)(OrdersList)
 

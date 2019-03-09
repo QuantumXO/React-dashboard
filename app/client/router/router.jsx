@@ -9,7 +9,7 @@ import { Switch, Route } from 'react-router-dom'
 // Containers
 import Home from './../containers/home/home'
 import Customers from './../containers/customers/customers'
-import Orders from './../containers/orders/orders'
+import Orders from '../containers/ordersList/ordersList'
 /*iimport Order from "../containers/order";
 import Admin from "../containers/admin";*/
 

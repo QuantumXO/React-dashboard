@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import SortBtn from './sortBtn'
 
 
-
 class OrdersTable extends Component{
 
     constructor(props){
@@ -23,8 +22,15 @@ class OrdersTable extends Component{
             direction: true // from begin
         };
 
-        this._checkAll.bind(this);
+        this._checkAll = this._checkAll.bind(this);
+        this._sort = this._sort.bind(this);
 
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.ordersList !== this.props.ordersList) {
+            this.setState({data: this.props.ordersList});
+        }
     }
 
     /*shouldComponentUpdate(nextProps, nextState){
@@ -75,12 +81,11 @@ class OrdersTable extends Component{
             direction: direction,
         }, function(){});
 
-
     }
 
     render() {
 
-        const orders = this.state.data;
+        let orders = this.state.data;
         const sortBy = this.state.sortBy;
         const direction = this.state.direction;
 
@@ -102,17 +107,25 @@ class OrdersTable extends Component{
                 return 0;
 
             });
-        }else{
+        }else if(sortBy == 'date' || sortBy == 'total'){
+            // date, total
+
             orders.sort(function(A, B){
 
-                A = Math.ceil(A[sortBy]);
-                B = Math.ceil(B[sortBy]);
+                if(sortBy == 'date'){
+                    A = new Date(A[sortBy].split(".").reverse().join(".") + ', ' + A['time']);
+                    B = new Date(B[sortBy].split(".").reverse().join(".") + ', ' + B['time']);
+                }else{
+
+                    A = Math.ceil(A[sortBy]);
+                    B = Math.ceil(B[sortBy]);
+
+                }
 
                 return direction ? (A - B) : (B - A);
             });
         }
 
-        
         const ordersList = orders.map((item, i) =>
             <tr key={i}>
                 <td className={'check--col'}>
@@ -161,7 +174,7 @@ class OrdersTable extends Component{
                 <thead className='orders__list__thead'>
                     <tr>
                         <th className={'check--col'}>
-                            <span className='check--all' onClick={this._checkAll.bind(this)} >
+                            <span className='check--all' onClick={this._checkAll} >
                                 <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                     {!this.state.checkedAll?
                                         <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/> :
@@ -172,19 +185,19 @@ class OrdersTable extends Component{
                             </span>
                         </th>
                         <th>
-                            <SortBtn sortFunc={this._sort.bind(this)}
+                            <SortBtn sortFunc={this._sort}
                                 title={'Date'} active={this.state.sortBy}
                                  direction={this.state.direction} btnClass={'date'}
                             />
                         </th>
                         <th>
-                            <SortBtn sortFunc={this._sort.bind(this)}
+                            <SortBtn sortFunc={this._sort}
                                 title={'Reference'} active={this.state.sortBy}
                                 direction={this.state.direction} btnClass={'reference'}
                             />
                         </th>
                         <th>
-                            <SortBtn sortFunc={this._sort.bind(this)}
+                            <SortBtn sortFunc={this._sort}
                                 title={'Customer'} active={this.state.sortBy}
                                 direction={this.state.direction} btnClass={'customer'}
                             />
@@ -195,20 +208,20 @@ class OrdersTable extends Component{
                             </span>
                         </th>
                         <th>
-                            <SortBtn sortFunc={this._sort.bind(this)}
+                            <SortBtn sortFunc={this._sort}
                                 title={'Total'} active={this.state.sortBy}
                                 direction={this.state.direction} btnClass={'total'}
                             />
                         </th>
                         <th>
-                            <SortBtn sortFunc={this._sort.bind(this)}
+                            <SortBtn sortFunc={this._sort}
                                 title={'Status'} active={this.state.sortBy}
                                 direction={this.state.direction} btnClass={'status'}
                             />
                         </th>
                         <th>
 
-                            <SortBtn sortFunc={this._sort.bind(this)}
+                            <SortBtn sortFunc={this._sort}
                                 title={'Returned'} active={this.state.sortBy}
                                 direction={this.state.direction} btnClass={'returned'}
                             />

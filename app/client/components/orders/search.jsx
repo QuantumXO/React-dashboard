@@ -3,8 +3,6 @@
 
 import React, {PureComponent} from 'react'
 
-import ReactDOM from 'react-dom'
-
 class OrdersSearch extends PureComponent{
 
     constructor(props) {
@@ -12,11 +10,12 @@ class OrdersSearch extends PureComponent{
 
         this.state = {
             fieldIsActive: false,
-            //fieldValue: ''
         };
 
         this.getWrapRef = React.createRef();
         this.getInputRef = React.createRef();
+
+        this._search = this._search.bind(this)
 
     }
 
@@ -38,10 +37,6 @@ class OrdersSearch extends PureComponent{
     }
 
     _search(e){
-        //this.setState({fieldValue: e.target.value.toLowerCase()});
-
-        //console.log('search.jsx: ', e.target.value.toLowerCase());
-
         this.props.searchFunc(e.target.value.toLowerCase());
     }
 
@@ -52,7 +47,7 @@ class OrdersSearch extends PureComponent{
             >
                 <label>Search</label>
                 <input type="text" id='ordersSearch'
-                       onChange={this._search.bind(this)}
+                       onChange={this._search}
                        className='orders__search__field'
                        ref={this.getInputRef}
                 />
