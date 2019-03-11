@@ -8,8 +8,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Button from './../../components/default/button'
-import OrdersSearch from './../../components/orders/search'
 import OrdersTable from './../../components/orders/table'
+import OrdersSearch from './../../components/orders/search'
+import FilterList from './../../components/orders/FilterList'
 
 
 const refreshBtnContent = '<svg width=\'24\' focusable="false" viewBox="0 0 24 24" aria-hidden="true">\n' +
@@ -25,18 +26,29 @@ class OrdersList extends Component{
         this.state = {
             searchValue: '',
             coincidence: '',
+            showFilterList: false,
             orders: this.props.ordersList.orders
 
         };
 
         this._search = this._search.bind(this);
         this._refresh = this._refresh.bind(this);
+        this._addFilter = this._addFilter.bind(this);
+
 
     }
 
     _refresh(){
         console.log('this', this);
         this.forceUpdate();
+
+    }
+
+    _addFilter(){
+
+        this.setState({
+            showFilterList: !this.state.showFilterList
+        })
 
     }
 
@@ -86,24 +98,19 @@ class OrdersList extends Component{
                     <h2 className="default__title">Orders Lists</h2>
                     <div className="orders__settings">
                         <div className="orders__inner">
-                            <span className="orders__inner__btn">
+                            <span className="orders__inner__btn" onClick={this._addFilter}>
                                 <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
                                 </svg>
                                 add filter
                             </span>
-                            {/*<span className="orders__inner__btn refresh" >
-                                <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-                                </svg>
-                                refresh
-                            </span>*/}
                             <Button
                                 handleClickFunc={this._refresh}
                                 content={refreshBtnContent}
                                 classes={'orders__inner__btn refresh'}
                             />
                         </div>
+                        <FilterList active={this.state.showFilterList} />
                         <OrdersSearch searchFunc={this._search} />
                     </div>
                 </div>
@@ -116,7 +123,7 @@ class OrdersList extends Component{
 
 function mapStateToProps (state) {
     return {
-        ordersList: state.ordersReducer
+        ordersList: state.ordersReducer,
     }
 }
 

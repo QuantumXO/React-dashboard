@@ -15,6 +15,8 @@
 
 	&__inner
 		display: flex
+		align-items: center
+		justify-content: flex-end
 		margin-bottom: 40px
 
 		&__btn
@@ -50,9 +52,16 @@
 				&:hover
 					svg
 						transform: rotate(360deg)
+
+	&__settings
+		position: relative
+
 	&__search
-		&__wrap
+		//&__wrap
+
+		&__inner
 			width: 194.5px
+			margin-left: 40px
 			display: inline-flex
 			position: relative
 			float: right
@@ -74,6 +83,7 @@
 				top: 50%
 				left: 0
 				position: absolute
+				text-transform: capitalize
 				transform: translate(0, -50%) scale(1)
 				transform-origin: top left
 				transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms
@@ -86,6 +96,29 @@
 				&:after
 					background-color: #3f51b5
 
+			.hide__filter
+				width: 24px
+				height: 24px
+				top: 50%
+				right: -24px
+				display: flex
+				padding: 0 0 .2px 1px
+				position: absolute
+				color: $defaultColor
+				border-radius: 50%
+				align-items: center
+				font-weight: 500
+				justify-content: center
+				border: 2px solid $defaultColor
+				transform: translateY(-50%)
+				transition: .3s ease-in-out
+				cursor: pointer
+
+				&:hover
+					color: #ffffff
+					background-color: $defaultColor
+
+
 		&__field
 			width: 100%
 			display: block
@@ -96,6 +129,7 @@
 			outline: none
 			background: inherit
 			z-index: 99
+
 
 	&__list
 		&__table
@@ -217,6 +251,39 @@
 			display: flex
 			color: #3f51b5
 			align-items: center
+
+	&__filter
+		&__list
+			top: 45px
+			width: 168px
+			max-height: 529px
+			padding: 8px 0
+			position: absolute
+			border-radius: 2px
+			overflow-y: auto
+			transform: scale(0)
+			transform-origin: left top
+			background-color: #ffffff
+			box-shadow: rgba(0, 0, 0, .12) 0 1px 6px, rgba(0, 0, 0, .12) 0 1px 4px
+			transition: transform 250ms cubic-bezier(.23, 1, .32, 1) 0ms, opacity 250ms cubic-bezier(.23, 1, .32, 1) 0ms
+			z-index: 999
+
+		&__list.show
+			transform: scale(1, 1)
+
+		&__item
+			padding: 0 16px
+			border: 10px
+			line-height: 48px
+			color: #000000
+			white-space: nowrap
+			user-select: none
+			text-transform: capitalize
+			transition: all 450ms cubic-bezier(.23, 1, .32, 1) 0ms
+			cursor: pointer
+			&:hover
+				background: rgba(#000, .1)
+
 
 [data-direction='false']
 	svg

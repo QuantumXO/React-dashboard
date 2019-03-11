@@ -4,9 +4,9 @@ import './_aside.sass'
 
 import React, {Component} from 'react'
 
-import ReactDOM from 'react-dom'
 // Router
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const linksArr = [
     {title: 'dashboard', link: '/', icon: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z'},
@@ -26,12 +26,6 @@ class Aside extends Component{
 
     }
 
-    componentDidMount(){
-
-
-
-    }
-
     render(){
         const menu = linksArr.map((item, i) =>
             <li className="aside__menu-item" key={i}>
@@ -43,7 +37,7 @@ class Aside extends Component{
                     <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="false">
                         <path d={item.icon} />
                     </svg>
-                    <span className={this.props.menuLinksHide ? 'aside__menu-title hide' : 'aside__menu-title'}>{item.title}</span>
+                    <span className={this.props.basic.menuLinksHide ? 'aside__menu-title hide' : 'aside__menu-title'}>{item.title}</span>
                 </Link>
             </li>
         );
@@ -61,4 +55,17 @@ class Aside extends Component{
 
 }
 
-export default Aside
+
+function mapStateToProps (state) {
+    return {
+        basic: state.basicReducer
+    }
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        //basicAction: bindActionCreators(basicAction, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Aside)

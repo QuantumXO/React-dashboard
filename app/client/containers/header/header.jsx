@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux'
 // Store
 import { connect } from 'react-redux'
 
+import basicAction from '../../actions/basic/basicAction'
+
 import LogOutBtn from './../../components/header/logOutBtn'
 
 class Header extends Component{
@@ -15,21 +17,23 @@ class Header extends Component{
     constructor(props){
         super(props);
 
-        this.state = {
-            menuHide: false
-        }
+       /* this.state = {
+            menuLinksHide: this.props.basic.menuLinksHide
+        };*/
 
+        this._handleMenuState = this._handleMenuState.bind(this);
 
     }
 
     _handleMenuState(){
 
-        this.setState({
+       /* this.setState({
             menuHide: !this.state.menuHide
         }, () => {
             this.props.changeMenuStateFunc(this.state.menuHide);
-        });
+        });*/
 
+        this.props.basicAction(!this.props.basic.menuLinksHide);
 
     }
 
@@ -37,9 +41,9 @@ class Header extends Component{
         return(
             <header>
                 <div className="header__block">
-                    <span className="header__menu-show" onClick={this._handleMenuState.bind(this)}>
+                    <span className="header__menu-show" onClick={this._handleMenuState}>
                         <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                         </svg>
                     </span>
                     <h1 className="header__title">{this.props.basic.author} Admin Panel</h1>
@@ -59,7 +63,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        //authAction: bindActionCreators(authAction, dispatch)
+        basicAction: bindActionCreators(basicAction, dispatch)
     }
 }
 
