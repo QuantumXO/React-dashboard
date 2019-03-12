@@ -8,15 +8,12 @@ class FilterList extends PureComponent{
     constructor(props){
         super(props);
 
-        this._addFilterField = this._addFilterField.bind(this)
+        this.addFilterField = this.addFilterField.bind(this);
     }
 
-    _addFilterField(e){
-
+    addFilterField(e){
 
             const targetAttr = e.target.getAttribute('data-item');
-
-            console.log();
 
             switch (targetAttr) {
 
@@ -61,7 +58,6 @@ class FilterList extends PureComponent{
 
 
                     break;
-
             }
 
     }
@@ -70,8 +66,8 @@ class FilterList extends PureComponent{
         return(
             <ul
                 role='menu'
-                onClick={this._addFilterField}
-                className={this.props.active ? "orders__filter__list show"  : "orders__filter__list" }
+                onClick={this.addFilterField}
+                className={"orders__filter__list" + (this.props.active ? " show" : "")}
             >
                 <li className="orders__filter__item" data-item="customer">customer</li>
                 <li className="orders__filter__item" data-item="status">status</li>

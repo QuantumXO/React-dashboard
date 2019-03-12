@@ -6,6 +6,7 @@ import React, { PureComponent } from 'react'
 class SortBtn extends PureComponent{
 
     handleClick(type){
+
         const {sortFunc} = this.props;
 
         sortFunc(type);
