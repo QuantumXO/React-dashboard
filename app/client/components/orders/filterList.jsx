@@ -8,58 +8,31 @@ class FilterList extends PureComponent{
     constructor(props){
         super(props);
 
+        /*this.state = {
+            upd: false,
+        };*/
+
         this.addFilterField = this.addFilterField.bind(this);
     }
 
     addFilterField(e){
 
-            const targetAttr = e.target.getAttribute('data-item');
+        const targetAttr = e.target.getAttribute('data-item');
 
-            switch (targetAttr) {
-
-                case 'customer':
-                    console.log(0);
-
-
-
-                    break;
-
-                case 'status':
-                    console.log(1);
-
-
-
-
-                    break;
-
-                case 'passed-since':
-                    console.log(2);
-
-
-
-                    break;
-
-                case 'passed-before':
-                    console.log(3);
-
-
-                    break;
-
-                case 'min-amount':
-                    console.log(4);
-
-
-
-                    break;
-
-                case 'returned':
-                    console.log(5);
-
-
-
-                    break;
+        this.props.fieldShowFunc(
+            {
+                name: targetAttr,
+                show: true
             }
+        );
 
+        //this.setState({upd: !this.state.upd});
+
+    }
+
+    componentWillReceiveProps(nextProps){
+        //console.log("componentWillReceiveProps()");
+        //this.setState({upd: !this.state.upd})
     }
 
     render(){

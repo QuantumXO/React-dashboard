@@ -9,9 +9,11 @@ import { connect } from 'react-redux'
 
 import Button from './../../components/default/button'
 import OrdersTable from './../../components/orders/table'
-import OrdersSearch from './../../components/orders/search'
+import Search from './../../components/orders/search'
 import FilterList from './../../components/orders/FilterList'
 
+
+import * as filterAction from '../../actions/ordersList/filterAction'
 
 const refreshBtnContent = '<svg width=\'24\' focusable="false" viewBox="0 0 24 24" aria-hidden="true">\n' +
     '                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>\n' +
@@ -26,25 +28,27 @@ class OrdersList extends Component{
         this.state = {
             searchValue: '',
             coincidence: '',
+            upd: false,
             showFilterList: false,
-            orders: this.props.ordersList.orders
+            searchFields: this.props.ordersListProps.searchFields,
+            orders: this.props.ordersListProps.orders,
 
         };
 
-        this._search = this._search.bind(this);
-        this._refresh = this._refresh.bind(this);
-        this._addFilter = this._addFilter.bind(this);
+        this.search = this.search.bind(this);
+        this.refresh = this.refresh.bind(this);
+        this.addFilter = this.addFilter.bind(this);
 
 
     }
 
-    _refresh(){
+    refresh(){
         console.log('this', this);
         this.forceUpdate();
 
     }
 
-    _addFilter(){
+    addFilter(){
 
         this.setState({
             showFilterList: !this.state.showFilterList
@@ -52,14 +56,18 @@ class OrdersList extends Component{
 
     }
 
-    _search(value){
+    search(value){
 
         this.setState({
             searchValue: value
-        }, function () {
-
         });
 
+    }
+
+    componentWillReceiveProps(nextProps){
+
+
+        this.setState({upd: !this.state.upd})
     }
 
     render() {
@@ -98,20 +106,32 @@ class OrdersList extends Component{
                     <h2 className="default__title">Orders Lists</h2>
                     <div className="orders__settings">
                         <div className="orders__inner">
-                            <span className="orders__inner__btn" onClick={this._addFilter}>
+                            <span className="orders__inner__btn" onClick={this.addFilter} >
                                 <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
                                 </svg>
                                 add filter
                             </span>
+
                             <Button
-                                handleClickFunc={this._refresh}
+                                handleClickFunc={this.refresh}
                                 content={refreshBtnContent}
                                 classes={'orders__inner__btn refresh'}
                             />
+
                         </div>
-                        <FilterList active={this.state.showFilterList} />
-                        <OrdersSearch searchFunc={this._search} />
+                        <FilterList
+                            active={this.state.showFilterList}
+                            fieldShowFunc={this.props.filterAction.changeFilterFieldState}
+                            searchFields={this.state.searchFields}
+                        />
+
+                        <Search
+                            searchFunc={this.search}
+                            fieldHandleStateFunc={this.props.filterAction.changeFilterFieldState}
+                            searchFields={this.state.searchFields}
+                        />
+
                     </div>
                 </div>
                 <OrdersTable ordersList={newOrdersArr} />
@@ -123,13 +143,13 @@ class OrdersList extends Component{
 
 function mapStateToProps (state) {
     return {
-        ordersList: state.ordersReducer,
+        ordersListProps: state.ordersReducer,
     }
 }
 
 function mapDispatchToProps (dispatch) {
     return {
-        //authAction: bindActionCreators(authAction, dispatch)
+        filterAction: bindActionCreators(filterAction, dispatch)
     }
 }
 

@@ -10,10 +10,10 @@ export default class FilterItemCloseBtn extends PureComponent{
             <span
                 className={this.props.classes}
                 data-close={this.props.close}
-                onClick={this.fieldHideFunc}
+                onClick={this.props.fieldHideFunc}
             >
-        x
-    </span>
+            x
+            </span>
         )
     }
 }
