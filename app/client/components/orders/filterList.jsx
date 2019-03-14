@@ -8,46 +8,58 @@ class FilterList extends PureComponent{
     constructor(props){
         super(props);
 
-        /*this.state = {
+        this.state = {
             upd: false,
-        };*/
+        };
 
         this.addFilterField = this.addFilterField.bind(this);
     }
 
     addFilterField(e){
 
-        const targetAttr = e.target.getAttribute('data-item');
+        const target = e.target;
 
-        this.props.fieldShowFunc(
-            {
-                name: targetAttr,
-                show: true
-            }
-        );
 
-        //this.setState({upd: !this.state.upd});
+        if(target.classList.contains('orders__filter__item')){
+
+            const targetAttr = e.target.getAttribute('data-item');
+
+            this.props.fieldShowFunc(
+                {
+                    name: targetAttr,
+                    show: true
+                }
+            );
+
+        }
+
+        setTimeout(this.props.handleStateOfFilterListFunc, 20);
 
     }
 
     componentWillReceiveProps(nextProps){
-        //console.log("componentWillReceiveProps()");
-        //this.setState({upd: !this.state.upd})
+        this.setState({upd: !this.state.upd})
     }
 
     render(){
+
+        const list = this.props.searchFields.map((item, i) => (
+
+            <React.Fragment key={i}>
+                {!item.show && item.name !== 'search'  ? (
+                    <li className="orders__filter__item" data-item={item.name}>{item.title}</li>
+                ) : null}
+            </React.Fragment>
+
+        ));
+
         return(
             <ul
                 role='menu'
                 onClick={this.addFilterField}
                 className={"orders__filter__list" + (this.props.active ? " show" : "")}
             >
-                <li className="orders__filter__item" data-item="customer">customer</li>
-                <li className="orders__filter__item" data-item="status">status</li>
-                <li className="orders__filter__item" data-item="passed-since">passed since</li>
-                <li className="orders__filter__item" data-item="passed-before">passed before</li>
-                <li className="orders__filter__item" data-item="min-amount">min amount</li>
-                <li className="orders__filter__item" data-item="returned">returned</li>
+                {list}
             </ul>
         )
     }

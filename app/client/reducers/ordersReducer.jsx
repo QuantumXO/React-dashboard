@@ -34,18 +34,11 @@ export default function ordersReducer(state = initialState, action) {
 
             const field = state.searchFields.filter(item => (item.name == action.field.name));
 
-            console.log('field: ', field[0]);
-
-            const showState = field[0].show = action.field.show;
-
-            //let newFieldState = state.fieldsIsActive[action.field.name] = action.field.show;
-
-
-            console.log('field new: ', field[0]);
+            const newShowState = field[0].show = action.field.show;
 
             return {
                 ...state,
-                showState
+                newShowState
             };
 
         default:

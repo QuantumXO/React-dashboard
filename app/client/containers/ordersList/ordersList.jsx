@@ -25,27 +25,35 @@ class OrdersList extends Component{
     constructor(props){
         super(props);
 
+        const {searchFields, orders} = this.props.ordersListProps;
+
         this.state = {
             searchValue: '',
-            coincidence: '',
+            searchTypes: [],
+            coincidence: '', // for highlight
             upd: false,
             showFilterList: false,
-            searchFields: this.props.ordersListProps.searchFields,
-            orders: this.props.ordersListProps.orders,
+            searchFields: searchFields,
+            orders: orders,
 
         };
 
         this.search = this.search.bind(this);
         this.refresh = this.refresh.bind(this);
         this.addFilter = this.addFilter.bind(this);
-
+        this.handleStateOfFilterList = this.handleStateOfFilterList.bind(this);
 
     }
 
-    refresh(){
-        console.log('this', this);
-        this.forceUpdate();
+    handleStateOfFilterList(e){
 
+        const target = e.target;
+
+        this.setState({showFilterList: !this.state.showFilterList});
+    }
+
+    refresh(){
+        this.forceUpdate();
     }
 
     addFilter(){
@@ -56,16 +64,19 @@ class OrdersList extends Component{
 
     }
 
-    search(value){
+    search(value, type){
 
         this.setState({
-            searchValue: value
+            searchValue: value,
+            searchTypes: type,
         });
+
+        console.log('value: ', value);
+        console.log('type: ', type);
 
     }
 
     componentWillReceiveProps(nextProps){
-
 
         this.setState({upd: !this.state.upd})
     }
@@ -120,8 +131,10 @@ class OrdersList extends Component{
                             />
 
                         </div>
+
                         <FilterList
                             active={this.state.showFilterList}
+                            handleStateOfFilterListFunc={this.handleStateOfFilterList}
                             fieldShowFunc={this.props.filterAction.changeFilterFieldState}
                             searchFields={this.state.searchFields}
                         />

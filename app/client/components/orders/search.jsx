@@ -2,7 +2,7 @@
 'use strict';
 
 import React, {PureComponent} from 'react'
-import ReactDOM from 'react-dom'
+//import ReactDOM from 'react-dom'
 
 import FilterItemCloseBtn from './filterItemCloseBtn'
 
@@ -11,71 +11,58 @@ class Search extends PureComponent{
     constructor(props) {
         super(props);
 
+        this.getInputRef = [];
+
         this.state = {
             upd: false,
-            //searchFields: this.props.searchFields,
+            fieldsRef: this.getInputRef || [],
         };
-
-        this.getWrapRef = React.createRef();
-        this.getInputRef = React.createRef();
 
         this.search = this.search.bind(this);
         this.fieldHide = this.fieldHide.bind(this);
 
+        this.handleStateOfElements = this.handleStateOfElements.bind(this);
+
     }
 
     componentDidMount(){
+        document.body.addEventListener('click', this.handleStateOfElements, false);
+    }
 
-        // Mb need store for that and local state like "someFieldIsActive: 1/0"
-        //
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleStateOfElements, false);
+    }
 
-        const wrap = this.getWrapRef.current;
-        const input = this.getInputRef.current;
+    handleStateOfElements(e){
 
-        document.addEventListener('click', function (e) {
+        const target = e.target;
+        
+        if(target.classList.contains('orders__search__field')){
 
-            const target = e.target;
+            target.parentNode.classList.add('active');
 
-            console.log('e.target: ', target);
+        }else{
 
-            if(target.classList.contains('orders__search__field')){
+            this.state.fieldsRef.forEach(function (item, i) {
 
-                const fieldName = target.getAttribute('data-field'); // like: 'customer', 'status'
+                if(item && !item.value){
+                    item.parentNode.classList.remove('active');
+                }
+            });
 
-                target.parentNode.classList.add('active');
-
-                console.log('fieldName: ', fieldName);
-                //wrap.classList.add('active');
-
-            }else if(){
-                wrap.classList.remove('active');
-            }
-
-           /* if(e.target == input){
-                wrap.classList.add('active');
-
-            }else if(input.getAttribute('data-field') == 'search' && !input.value){
-                wrap.classList.remove('active');
-            }*/
-
-
-            if(0 == 2){
-                ///
-            }
-
-        }, false);
+        }
 
     }
 
     search(e){
 
-        this.props.searchFunc(e.target.value.toLowerCase());
+        const target = e.target;
 
+        this.props.searchFunc(target.value.toLowerCase(), target.getAttribute('data-field')); // value, field name
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("search.jsx ->componentWillReceiveProps()");
-        this.setState({upd: !this.state.upd})
+        this.setState({upd: !this.state.upd}) // just for update component
     }
 
     fieldHide(e){
@@ -90,7 +77,6 @@ class Search extends PureComponent{
         );
 
         this.setState({upd: !this.state.upd})
-
     }
 
     render() {
@@ -100,7 +86,6 @@ class Search extends PureComponent{
                 <React.Fragment key={i}>
                     {item.show || item.name == 'search'  ? (
                         <div
-                            ref={item.name == 'search' && this.getWrapRef}
                             className="orders__search__inner"
                             data-key={item.name}
                             data-id={item.id}
@@ -108,23 +93,24 @@ class Search extends PureComponent{
                             <label>{item.title}</label>
                             <input
                                 type="text"
-                                id={'order' + item.name}
+                                //id={item.name}
                                 onChange={this.search}
                                 data-field={item.name}
-                                ref={item.name == 'search' &&  this.getInputRef}
+                                data-field-id={item.id}
+                                //ref={item.name == 'search' && this.getInputRef}
+                                ref={node => this.getInputRef[item.id] = node}
                                 className="orders__search__field"
                             />
 
-                            {item.name !== 'search' ? <FilterItemCloseBtn classes='hide__filter' close={item.name} fieldHideFunc={this.fieldHide} /> : '' }
+                            {item.name !== 'search' && <FilterItemCloseBtn classes='hide__filter' close={item.name} fieldHideFunc={this.fieldHide} /> }
 
                         </div>
-                    ) : ''}
+                    ) : null}
 
                 </React.Fragment>
             )
 
         );
-
 
         return(
 
