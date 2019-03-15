@@ -36,8 +36,6 @@ class OrdersList extends Component{
             searchData: [], // [{type: '', value: ''}]
             coincidence: '', // for highlight
             upd: false,
-            checkedAll: checkedAll,
-            checkedItems: checkedItems,
             showFilterList: false,
             searchFields: searchFields,
             orders: orders,
@@ -45,8 +43,6 @@ class OrdersList extends Component{
         };
 
         this.search = this.search.bind(this);
-        this.checkAll = this.checkAll.bind(this);
-        this.checkItem = this.checkItem.bind(this);
         this.deleteOrder = this.deleteOrder.bind(this);
         this.refresh = this.refresh.bind(this);
         this.addFilter = this.addFilter.bind(this);
@@ -119,21 +115,16 @@ class OrdersList extends Component{
     }
 
     componentWillReceiveProps(nextProps){
-
-        this.setState({upd: !this.state.upd})
-    }
-
-    checkAll(){
-
-    }
-
-    checkItem(){
-
+        this.setState({
+            upd: !this.state.upd,
+        })
     }
 
     render() {
 
-        const {orders, searchData, checkedAll, checkedItems} = this.state;
+        const {orders, searchData} = this.state;
+        const {checkedAll, checkedItems} = this.props.ordersListProps;
+
         let newOrdersArr = orders;
 
         if(searchData.length){
@@ -224,6 +215,7 @@ class OrdersList extends Component{
                     <h2 className="default__title">Orders Lists</h2>
                     <div className="orders__settings">
                         <div className="orders__inner">
+
                             {checkedAll || checkedItems.length ? (
                                 <Button
                                     handleClickFunc={this.deleteOrder}
