@@ -1,6 +1,6 @@
 'use strict';
 
-import { CHANGE_FILTER_FIELD_STATE } from '../constans/actionTypes'
+import {HANDLE_FILTER_FIELD_STATE, HANDLE_CHECK_ALL, HANDLE_CHECK_ITEM} from "../constans/actionTypes"
 
 const initialState = {
 
@@ -15,14 +15,16 @@ const initialState = {
 
     searchFields: [
         {id: 0, name: 'search', show: true, value: '', title: 'search'},
-        {id: 1, name: 'customer', show: true, value: '', title: 'customer'},
-        {id: 2, name: 'passedSince', show: false, value: '', title: 'passed Since'},
+        {id: 1, name: 'customer', show: false, value: '', title: 'customer'},
+        /*{id: 2, name: 'passedSince', show: false, value: '', title: 'passed Since'},
         {id: 3, name: 'passedBefore', show: false, value: '', title: 'passed Before'},
-        {id: 4, name: 'minAmount', show: false, value: '', title: 'min Amount'},
+        {id: 4, name: 'minAmount', show: false, value: '', title: 'min Amount'},*/
         {id: 5, name: 'returned', show: false, value: '', title: 'returned'},
         {id: 6, name: 'status', show: false, value: '', title: 'status'},
     ],
-    
+
+    checkedAll: false,
+    checkedItems: [],
 
 };
 
@@ -30,7 +32,7 @@ export default function ordersReducer(state = initialState, action) {
 
     switch (action.type){
 
-        case CHANGE_FILTER_FIELD_STATE:
+        case HANDLE_FILTER_FIELD_STATE:
 
             const field = state.searchFields.filter(item => (item.name == action.field.name));
 
@@ -40,6 +42,19 @@ export default function ordersReducer(state = initialState, action) {
                 ...state,
                 newShowState
             };
+
+        case HANDLE_CHECK_ALL:
+
+            const checkedAll = action.checkAll;
+
+            return {
+                ...state,
+                checkedAll
+            };
+
+        case HANDLE_CHECK_ITEM:
+
+            return state;
 
         default:
             return state;

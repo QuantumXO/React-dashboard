@@ -55,7 +55,7 @@ class FilterList extends PureComponent{
 
         return(
             <ul
-                role='menu'
+                role="menu"
                 onClick={this.addFilterField}
                 className={"orders__filter__list" + (this.props.active ? " show" : "")}
             >
