@@ -1,6 +1,6 @@
 
 
-import { HANDLE_CHECK_ALL, HANDLE_CHECK_ITEM } from '../../constans/actionTypes'
+import { HANDLE_CHECK_ALL, HANDLE_CHECK_ITEM, DELETE_ITEM } from '../../constans/actionTypes'
 
 export function handleCheckAll(state){
     return {
@@ -12,6 +12,13 @@ export function handleCheckAll(state){
 export function handleCheckItem(state){
     return {
         type: HANDLE_CHECK_ITEM,
-        checkItem: state
+        checkedItem: state
+    }
+}
+
+export function deleteItem(){
+    return {
+        type: DELETE_ITEM,
+        delete: 1
     }
 }

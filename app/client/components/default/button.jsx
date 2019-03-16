@@ -9,7 +9,6 @@ export default class Button extends PureComponent{
 
     }
 
-
     handleClick(func){
         func();
     }
@@ -25,7 +24,7 @@ export default class Button extends PureComponent{
                 onClick={handleClickFunc ? this.handleClick.bind(this, handleClickFunc) : this.handleClick.bind(this)}
                 type="button"
                 className={classes}
-            ></button>
+            />
         )
     }
 

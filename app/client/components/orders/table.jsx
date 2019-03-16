@@ -1,24 +1,26 @@
 'use strict';
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 // Router
 import { Link } from 'react-router-dom'
 
 import SortBtn from './sortBtn'
 
-
-class OrdersTable extends Component{
+class OrdersTable extends PureComponent{
 
     constructor(props){
         super(props);
 
+        const {isCheckedAll, isCheckedItem} = this.props;
+
         this.state = {
             sortBy: '',
-            counter: 0,
+            //counter: 0,
             searchValue: '',
-            checkedAll: false,
-            checkedItems: [],
-            data: this.props.ordersList,
+            upd: false,
+            checkedAll: isCheckedAll,
+            checkedItems: isCheckedItem,
+            //data: this.props.ordersList,
             direction: true // (ASC)
         };
 
@@ -27,41 +29,12 @@ class OrdersTable extends Component{
 
     }
 
-    componentDidUpdate(prevProps) {
-        if(prevProps.ordersList !== this.props.ordersList) {
-            this.setState({data: this.props.ordersList});
-        }
-    }
-
     changeStateCheckItem(itemId){
-
-        const checkedItemsState = this.state.checkedItems;
-
-        if(checkedItemsState.indexOf(itemId) != -1){
-
-            this.setState({
-                checkedItems: checkedItemsState.filter(item => item !== itemId)
-            });
-
-        }else{
-            this.setState({
-                checkedItems: checkedItemsState.concat([itemId])
-            })
-
-        }
-
+        this.props.checkItemsFunc(itemId);
     }
 
     checkAll(){
-
-
-        this.setState({
-            checkedAll: !this.state.checkedAll
-        }, function (){
-            this.props.checkAllFunc(this.state.checkedAll);
-        });
-
-
+        this.props.checkAllFunc(!this.props.isCheckedAll);
     }
 
     sort(type){
@@ -71,7 +44,7 @@ class OrdersTable extends Component{
         const sortBy = this.state.sortBy;
 
         if(sortBy == type){
-            direction = !this.state.direction;
+            direction = !direction;
         }else
             direction = true;
 
@@ -82,11 +55,22 @@ class OrdersTable extends Component{
 
     }
 
+    componentDidUpdate(prevProps) {
+
+        const {isCheckedAll, isCheckedItem} = this.props;
+
+        if(prevProps.isCheckedAll !== isCheckedAll) {
+            this.setState({checkedAll: isCheckedAll});
+        }
+        if(prevProps.isCheckedItem !== isCheckedItem) {
+            this.setState({checkedItems: isCheckedItem});
+        }
+    }
+
     render() {
 
-        let orders = this.state.data;
-        const sortBy = this.state.sortBy;
-        const direction = this.state.direction;
+        const orders = this.props.ordersList;
+        const {sortBy, direction} = this.state;
 
         if(
             sortBy == 'reference' ||
@@ -119,12 +103,11 @@ class OrdersTable extends Component{
                     B = Math.ceil(B[sortBy]);
 
                 }
-
                 return direction ? (A - B) : (B - A);
             });
         }
 
-        const ordersList = orders.length ?
+        const ordersList =
             orders.map((item, i) =>
                 (
                     <tr key={i}>
@@ -167,8 +150,7 @@ class OrdersTable extends Component{
                         </td>
                     </tr>
                 )
-        ) :
-        (<p style={{width: '100%', display: 'block'}}>results not found</p>);
+        );
 
         return(
             <table className="orders__list__table">
@@ -177,8 +159,8 @@ class OrdersTable extends Component{
                         <th className='check--col'>
                             <span className='check--all' onClick={this.checkAll} >
                                 <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    {!this.state.checkedAll?
-                                        <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/> :
+                                    {!this.state.checkedAll ?
+                                        <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" /> :
                                         <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                                     }
                                 </svg>
@@ -231,9 +213,14 @@ class OrdersTable extends Component{
                         <th />
                     </tr>
                 </thead>
-                <tbody className='orders__list__tbody'>
+                {orders.length ? (
+                    <tbody className='orders__list__tbody'>
                     {ordersList}
-                </tbody>
+                    </tbody>
+                ) : (
+                    <tr>Results not found</tr>
+                )}
+
             </table>
         )
     }

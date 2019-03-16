@@ -16,10 +16,6 @@ const reviewsListArr = [
 
 class ReviewsBlock extends PureComponent{
 
-    componentDidMount(){
-
-    }
-
     render(){
 
         const reviewsList = reviewsListArr.map((item, i) =>

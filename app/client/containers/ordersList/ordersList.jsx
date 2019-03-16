@@ -12,14 +12,13 @@ import OrdersTable from './../../components/orders/table'
 import Search from './../../components/orders/search'
 import FilterList from './../../components/orders/FilterList'
 
-
 import * as filterAction from '../../actions/ordersList/filterAction'
 import * as tableAction from '../../actions/ordersList/tableAction'
 
 const refreshBtnContent = '<svg width=\'24\' focusable="false" viewBox="0 0 24 24">\n' +
-    '                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>\n' +
-    '                                </svg>\n' +
-    '                                refresh';
+    '                            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>\n' +
+    '                      </svg>\n' +
+    '                      refresh';
 
 const deleteBtnContent = '<svg width="24" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" /></svg>' +
                             'delete';
@@ -29,17 +28,13 @@ class OrdersList extends Component{
     constructor(props){
         super(props);
 
-        const {searchFields, orders, checkedAll, checkedItems} = this.props.ordersListProps;
-
         this.state = {
-            searchValue: '',
             searchData: [], // [{type: '', value: ''}]
             coincidence: '', // for highlight
             upd: false,
+            //checkedAll: this.props.ordersListProps.checkedAll,
+            //checkedItems: this.props.ordersListProps.checkedItems,
             showFilterList: false,
-            searchFields: searchFields,
-            orders: orders,
-
         };
 
         this.search = this.search.bind(this);
@@ -59,6 +54,7 @@ class OrdersList extends Component{
 
     deleteOrder(){
         console.log('click deleteOrder');
+        this.props.tableAction.deleteItem();
     }
 
     refresh(){
@@ -83,8 +79,6 @@ class OrdersList extends Component{
 
             if(isFound){
 
-                //console.log('isFound');
-
                 let withOut = this.state.searchData.filter(item => item.type != type);
 
                 let item = this.state.searchData
@@ -95,11 +89,8 @@ class OrdersList extends Component{
 
             }else{
 
-                //console.log('notFound');
                 searchData = [...this.state.searchData, {type: type, value: value}];
             }
-
-            //console.log(isFound);
 
             return {
                 searchData,
@@ -107,23 +98,19 @@ class OrdersList extends Component{
 
         });
 
-        /*this.setState({
-            //searchValue: value,
-            //searchTypes: type,
-        });*/
-
     }
 
-    componentWillReceiveProps(nextProps){
+   /* componentWillReceiveProps(nextProps){
         this.setState({
             upd: !this.state.upd,
-        })
-    }
+            orders: this.props.ordersListProps.orders,
+        });
+    }*/
 
     render() {
 
-        const {orders, searchData} = this.state;
-        const {checkedAll, checkedItems} = this.props.ordersListProps;
+        const {searchData} = this.state;
+        const {orders, checkedAll, checkedItems, searchFields} = this.props.ordersListProps;
 
         let newOrdersArr = orders;
 
@@ -134,8 +121,7 @@ class OrdersList extends Component{
             for(let i = 0; i < orders.length; i++){
 
                 const order = orders[i];
-
-                let customer = order.customer.toLowerCase();
+                const customer = order.customer.toLowerCase();
 
                 for(let i = 0; i < searchData.length; i++){
 
@@ -243,18 +229,25 @@ class OrdersList extends Component{
                             active={this.state.showFilterList}
                             handleStateOfFilterListFunc={this.handleStateOfFilterList}
                             fieldShowFunc={this.props.filterAction.changeFilterFieldState}
-                            searchFields={this.state.searchFields}
+                            searchFields={searchFields}
                         />
 
                         <Search
                             searchFunc={this.search}
                             fieldHandleStateFunc={this.props.filterAction.changeFilterFieldState}
-                            searchFields={this.state.searchFields}
+                            searchFields={searchFields}
                         />
 
                     </div>
                 </div>
-                <OrdersTable ordersList={newOrdersArr} checkAllFunc={this.props.tableAction.handleCheckAll} checkItemsFunc={this.props.tableAction.handleCheckItem}/>
+
+                <OrdersTable
+                    ordersList={newOrdersArr}
+                    isCheckedAll={checkedAll}
+                    isCheckedItem={checkedItems}
+                    checkAllFunc={this.props.tableAction.handleCheckAll}
+                    checkItemsFunc={this.props.tableAction.handleCheckItem}
+                />
             </div>
         )
     }
