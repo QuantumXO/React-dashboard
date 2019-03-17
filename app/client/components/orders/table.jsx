@@ -125,7 +125,7 @@ class OrdersTable extends PureComponent{
                         <td className='tbody__date'><span>{item.date},&nbsp;{item.time}</span></td>
                         <td><span>{item.reference}</span></td>
                         <td>
-                            <a href={'/customers/' + i} className='orders__list__link'>
+                            <a href={'/customer/' + i} className='orders__list__link'>
                                 <img src={item.img} alt=""/>
                                 <span>{item.customer}</span>
                             </a>

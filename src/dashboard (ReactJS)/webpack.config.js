@@ -91,7 +91,7 @@ module.exports = {
 		historyApiFallback: true,
 		host: 'localhost',
 		contentBase: 'dist',
-		port: 3000,
+		port: 5000,
 		hot: true
 	}
 	

@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 // Store
 import { connect } from 'react-redux'
 
-import basicAction from '../../actions/basic/basicAction'
+import * as basicAction from '../../actions/basic/basicAction'
 
 import LogOutBtn from './../../components/header/logOutBtn'
 
@@ -17,23 +17,13 @@ class Header extends Component{
     constructor(props){
         super(props);
 
-       /* this.state = {
-            menuLinksHide: this.props.basic.menuLinksHide
-        };*/
-
-        this._handleMenuState = this._handleMenuState.bind(this);
+        this.handleMenuState = this.handleMenuState.bind(this);
 
     }
 
-    _handleMenuState(){
+    handleMenuState(){
 
-       /* this.setState({
-            menuHide: !this.state.menuHide
-        }, () => {
-            this.props.changeMenuStateFunc(this.state.menuHide);
-        });*/
-
-        this.props.basicAction(!this.props.basic.menuLinksHide);
+        this.props.basicAction.changeMenuState(!this.props.basicProps.menuLinksHide);
 
     }
 
@@ -41,12 +31,12 @@ class Header extends Component{
         return(
             <header>
                 <div className="header__block">
-                    <span className="header__menu-show" onClick={this._handleMenuState}>
+                    <span className="header__menu-show" onClick={this.handleMenuState}>
                         <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                         </svg>
                     </span>
-                    <h1 className="header__title">{this.props.basic.author} Admin Panel</h1>
+                    <h1 className="header__title">{this.props.basicProps.author} Admin Panel</h1>
                 </div>
                 <LogOutBtn  />
             </header>
@@ -57,7 +47,7 @@ class Header extends Component{
 
 function mapStateToProps (state) {
     return {
-        basic: state.basicReducer
+        basicProps: state.basicReducer
     }
 }
 

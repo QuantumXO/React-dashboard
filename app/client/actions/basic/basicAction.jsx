@@ -1,10 +1,17 @@
 
-import { CHANGE_MENU_STATE } from '../../constans/actionTypes'
+import { CHANGE_MENU_STATE, IS_LOADING } from '../../constans/actionTypes'
 
-export default function changeMenuStateAction(state){
+export function changeMenuState(state){
     return {
         type: CHANGE_MENU_STATE,
         payload: state
+    }
+}
+
+export function isLoading(state){
+    return {
+        type: IS_LOADING,
+        loading: state
     }
 }
 

@@ -1,0 +1,69 @@
+
+@import "./../../styles/config"
+
+.loader
+  display: flex
+  height: 100%
+  width: 100%
+  position: fixed
+  align-items: center
+
+  &__wrap
+    margin: 0 auto
+
+  &__inner
+    width: 73px
+    height: 73px
+    margin: 49px auto 0
+    position: relative
+    transform: rotateZ(45deg)
+
+  &__item
+    width: 40%
+    height: 40%
+    position: relative
+    float: left
+    transform: rotateZ(45deg) scale(1.1)
+  
+    &:before
+      width: 100%
+      height: 100%
+      top: 0
+      left: 0
+      position: absolute
+      content: ""
+      background-color: $defaultColor
+      animation: loader 2.76s infinite linear both
+      transform-origin: 100% 100%
+  
+    &.item-2
+      transform: scale(1.1) rotateZ(90deg)
+
+      &:before
+        animation-delay: .35s
+  
+    &.item-3
+      transform: scale(1.1) rotateZ(180deg)
+
+      &:before
+        animation-delay: .69s
+  
+    &.item-4
+      transform: scale(1.1) rotateZ(270deg)
+
+      &:before
+        animation-delay: 1.04s
+
+@keyframes loader
+  0%, 10%
+    transform: perspective(136px) rotateX(-180deg)
+    opacity: 0
+
+  25%, 75%
+    transform: perspective(136px) rotateX(0deg)
+    opacity: 1
+
+  90%, 100%
+    transform: perspective(136px) rotateY(180deg)
+    opacity: 0
+

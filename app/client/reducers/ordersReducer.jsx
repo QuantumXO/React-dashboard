@@ -1,8 +1,6 @@
 'use strict';
 
-import {orders} from './../data/orders.json';
-
-console.log('orders: ', orders);
+import {orders} from './../data/orders.json'
 
 import {HANDLE_FILTER_FIELD_STATE, HANDLE_CHECK_ALL, HANDLE_CHECK_ITEM, DELETE_ITEM} from "../constans/actionTypes"
 

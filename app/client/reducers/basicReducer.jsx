@@ -1,6 +1,6 @@
 'use strict';
 
-import { CHANGE_MENU_STATE } from '../constans/actionTypes'
+import { CHANGE_MENU_STATE, IS_LOADING } from '../constans/actionTypes'
 
 const initialState = {
 
@@ -8,6 +8,7 @@ const initialState = {
     version: 'v2',
     dateOfStart: '01/03/2019',
     menuLinksHide: false,
+    isLoading: true
 
 };
 
@@ -21,6 +22,13 @@ export default function basicReducer(state = initialState, action) {
                 ...state,
                     menuLinksHide: action.payload
                 };
+
+        case IS_LOADING:
+
+            return {
+                ...state,
+                isLoading: false
+            };
 
         default:
             return state;
