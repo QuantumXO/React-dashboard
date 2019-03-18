@@ -92,13 +92,9 @@ export default function ordersReducer(state = initialState, action) {
 
         default:
 
-            //console.log('default');
-
             if(deletedOrders){
 
                 let newOrderslist = state.orders.filter(item => item.id !== deletedOrders);
-
-                console.log("newOrderslist: ", newOrderslist);
 
                 return {
                     ...state,
@@ -106,8 +102,6 @@ export default function ordersReducer(state = initialState, action) {
                 };
 
             }else{
-                console.log('123123');
-
                 return state;
             }
 

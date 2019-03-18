@@ -26,8 +26,10 @@ class Order extends PureComponent{
             statusValue: '',
             deleteState: false,
             location: '',
+            forFixErrMsg: ''
         };
 
+        this.forFixErrMsg = this.forFixErrMsg.bind(this);
         this.deleteOrder = this.deleteOrder.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
         this.handleListState = this.handleListState.bind(this);
@@ -40,6 +42,10 @@ class Order extends PureComponent{
 
     linkToOrdersList(){
 
+    }
+
+    forFixErrMsg(){
+        //this.setState({forFixErrMsg: });
     }
 
     deleteOrder(){
@@ -116,7 +122,6 @@ class Order extends PureComponent{
             )
         }
 
-
         if(this.state.deleteState){
             return(
                 <div className='order__wrap clearfix'>
@@ -130,8 +135,10 @@ class Order extends PureComponent{
                             <div className="order__header__inner">
 
                                 <Button
+                                    type="link"
                                     iconName="list"
                                     content="list"
+                                    redirectTo="/orders"
                                     handleClickFunc={this.linkToOrdersList}
                                     classes={'default__btn'}
                                 />
@@ -163,7 +170,6 @@ class Order extends PureComponent{
                         </div>
                     </div>
 
-
                 </div>
             )
         }
@@ -191,8 +197,10 @@ class Order extends PureComponent{
                         <div className="order__header__inner">
 
                             <Button
+                                type="link"
                                 iconName="list"
                                 content="list"
+                                redirectTo="/orders"
                                 handleClickFunc={this.linkToOrdersList}
                                 classes={'default__btn'}
                             />
@@ -218,12 +226,12 @@ class Order extends PureComponent{
                     <div className="order__edit">
                         <div className="order__edit__block clearfix">
                             <label>date</label>
-                            <input type="text" className='order__edit__field' value={date} readOnly />
+                            <input type="text" className='order__edit__field' value={date || ''} readOnly />
                         </div>
 
                         <div className="order__edit__block clearfix">
                             <label style={{left: '-4px'}}>customer</label>
-                            <input type="text" className='order__edit__field' value={customer} readOnly />
+                            <input type="text" className='order__edit__field' value={customer || ''} readOnly />
                         </div>
 
                         <div className="order__edit__block clearfix">
@@ -231,9 +239,9 @@ class Order extends PureComponent{
 
                             <div className="order__edit__field status-inner" onClick={this.handleListState}>
                                 <span style={{marginLeft: '0'}}>{this.state.statusValue ? this.state.statusValue : status}</span>
-                                <input type="hidden" value={this.state.statusValue ? this.state.statusValue : status} />
+                                <input type="hidden" value={this.state.statusValue ? this.state.statusValue : (status || '')} onChange={this.forFixErrMsg} />
                                 <svg className={this.state.listShow ? "arrow active" : "arrow"} width='24' height='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M7 10l5 5 5-5z"/>
+                                    <path d="M7 10l5 5 5-5z" />
                                 </svg>
                             </div>
 
@@ -264,28 +272,32 @@ class Order extends PureComponent{
                         <tbody>
                             <tr>
                                 <td>{reference}</td>
-                                <td>{total / nbItems}&nbsp;$</td> {/* for example */}
+                                <td>{total / nbItems}&nbsp;$</td>
                                 <td>{nbItems}</td>
                                 <td>{total}&nbsp;$</td>
                             </tr>
+
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>Sum</td>
                                 <td>{total}&nbsp;$</td>
                             </tr>
+
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>Delivery</td>
                                 <td>{delivery}&nbsp;$</td>
                             </tr>
+
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>Tax Rate</td>
                                 <td>{texRate}&nbsp;%</td>
                             </tr>
+
                             <tr className="total-sum">
                                 <td></td>
                                 <td></td>
