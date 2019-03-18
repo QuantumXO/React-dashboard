@@ -19,47 +19,6 @@
 		justify-content: flex-end
 		margin-bottom: 40px
 
-		&__btn
-			padding: 7px 8px
-			display: flex
-			align-items: center
-			justify-content: center
-			color: #3f51b5
-			font-size: em(13)
-			border-radius: 2px
-			text-transform: uppercase
-			background: none
-			user-select: none
-			outline: none
-			border: 0
-			transition: all .2s ease-in-out
-			cursor: pointer
-
-			svg
-				fill: #3f51b5
-				margin-right: 5px
-
-			&:first-child
-				margin-right: 10px
-
-			&:hover
-				background-color: rgba(63, 81, 181, .08)
-
-			&.refresh
-				svg
-					transition: transform .3s ease-in-out
-
-				&:hover
-					svg
-						transform: rotate(360deg)
-
-			&.delete
-				color: $reviewsColor
-
-				svg
-					fill: $reviewsColor
-
-
 	&__settings
 		position: relative
 

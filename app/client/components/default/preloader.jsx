@@ -1,6 +1,6 @@
 'use strict';
 
-import './preloader.sass'
+import './_preloader.sass'
 import React from 'react'
 
 export default function Preloader(){
