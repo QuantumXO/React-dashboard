@@ -1,0 +1,67 @@
+
+
+@import "./../../styles/config"
+
+.default
+	&__btn
+		padding: 6px 7px
+		display: flex
+		align-items: center
+		justify-content: center
+		color: #3f51b5
+		font-size: em(13)
+		border-radius: 2px
+		text-transform: uppercase
+		background: none
+		user-select: none
+		outline: none
+		text-decoration: none
+		transition: all .2s ease-in-out
+		border: 2px solid transparent
+		cursor: pointer
+
+		svg
+			fill: #3f51b5
+			margin-right: 5px
+
+		&:first-child
+			margin-right: 10px
+
+		&:hover
+			background-color: rgba(63, 81, 181, .08)
+
+		&.refresh
+			svg
+				transition: transform .3s ease-in-out
+
+			&:hover
+				svg
+					transform: rotate(360deg)
+
+		&.delete
+			color: $reviewsColor
+
+			svg
+				fill: $reviewsColor
+
+		&.success
+			color: #ffffff
+			background-color: #3f51b5
+
+			svg
+				fill: #ffffff
+
+			&:hover
+				opacity: .7
+
+		&.cancel
+			color: #3f51b5
+			margin-left: 10px
+			border: 2px solid #3f51b5
+			background-color: #ffffff
+
+			svg
+				fill: #3f51b5
+				
+			&:hover
+				opacity: .7

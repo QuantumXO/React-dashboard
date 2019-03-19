@@ -1,12 +1,14 @@
 'use strict';
 
-import { GET_ORDER_DATA } from "./../constans/actionTypes"
+import {DELETE_ORDER, GET_ORDER_DATA} from "./../constans/actionTypes"
 
 import {orders} from './../data/orders.json'
 
 const initialState = {
     orders: orders,
-    order: {}
+    order: {},
+    delivery: "7.62",
+    texRate: "20", // 20%
 };
 
 export default function orderReducer(state = initialState, action) {
@@ -21,6 +23,16 @@ export default function orderReducer(state = initialState, action) {
                 ...state,
                 order: {...orderData[0]}
             };
+
+        case DELETE_ORDER:
+
+            //let deletedItemsArr = [];
+
+            //deletedItemsArr[action.orderId] = action.orderId;
+
+            //sessionStorage.setItem('deletedOrders', JSON.stringify(deletedItemsArr));
+
+            return {location: '/orders'};
 
         default:
             return state;

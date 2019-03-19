@@ -1,0 +1,172 @@
+
+@import "./../../styles/config"
+
+.order
+	&__wrap
+		padding: 24px
+		background-color: #ffffff
+		box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12)
+
+	&__header
+		width: 100%
+		display: flex
+		align-items: flex-start
+		justify-content: space-between
+
+		&__title
+			overflow: hidden
+			font-size: em(24)
+			line-height: em(33)
+			color: rgba(0, 0, 0, .87)
+
+		&__inner
+			margin-bottom: 40px
+			display: flex
+			align-items: flex-start
+			justify-content: space-between
+			flex-wrap: wrap
+
+		&__settings
+			position: relative
+
+	&__inner
+		display: flex
+		align-items: flex-start
+		justify-content: space-between
+		flex-wrap: wrap
+
+		&__footer
+			width: 100%
+			display: flex
+			padding-top: 30px
+			align-items: center
+			justify-content: flex-start
+
+	&__edit
+		max-width: 194.5px
+
+		&__block
+			width: 194.5px
+			height: 27.5px
+			margin-bottom: 40px
+			display: inline-flex
+			position: relative
+
+			label
+				left: 0
+				display: block
+				position: absolute
+				font-size: em(16)
+				color: rgba(0, 0, 0, .54)
+				transform: translate(0, -15px) scale(0.75)
+				text-transform: capitalize
+
+			&:after
+				left: 5px
+				bottom: 0
+				width: 100%
+				height: 1px
+				content: ''
+				position: absolute
+				background-color: #000
+
+			&:focus
+				&:after
+					background-color: #3f51b5
+					height: 2px
+
+			.status-inner
+				display: flex
+				//line-height: em(19)
+				padding: 6px 7px 6px 0
+				justify-content: space-between
+				cursor: pointer
+
+				span,
+				svg
+					user-select: none
+
+				svg
+					right: 0
+					bottom: 1px
+					position: absolute
+					transform: rotate(0)
+					transition: transform .3s ease-in-out
+
+					&.active
+						transform: rotate(180deg)
+
+		&__field
+			width: 100%
+			margin-left: 5px
+			padding: 6px 7px 6px 0
+			display: block
+			position: relative
+			border: 0
+			outline: 0
+			font-size: em(16)
+			font-family: "Roboto", "Helvetica", "Arial", sans-serif
+			cursor: default
+	&__status
+		&__list
+			top: 45px
+			left: 0
+			min-width: 256px
+			max-height: 529px
+			padding: 8px 0
+			position: absolute
+			overflow-y: auto
+			transform: scale(0)
+			border-radius: 2px
+			background-color: #fff
+			transform-origin: left top
+			box-shadow: rgba(0, 0, 0, .12) 0 1px 6px, rgba(0, 0, 0, .12) 0 1px 4px
+			transition: transform 250ms cubic-bezier(.23, 1, .32, 1) 0ms, opacity 250ms cubic-bezier(.23, 1, .32, 1) 0ms
+			z-index: 99
+
+			&.show
+				transform: scale(1, 1)
+
+		&__item
+			font-size: em(19)
+			cursor: pointer
+
+			span
+				padding: 16px
+				width: 100%
+				display: inline-block
+				font-size: em(16)
+
+			&:hover
+				background-color: rgba(0, 0, 0, .14)
+	&__data
+		width: 672px
+		border-radius: 2px
+		box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12)
+
+		thead
+			border-bottom: 1px solid rgba(224, 224, 224, 1)
+
+			tr
+				display: table-row
+				vertical-align: middle
+
+			th
+				padding: 0 56px 0 24px
+				display: table-cell
+				font-size: em(12)
+				line-height: 55.5px
+				color: rgba(0, 0, 0, .54)
+
+		tbody
+			td
+				padding: 0 56px 0 24px
+				display: table-cell
+				font-size: em(15)
+				line-height: 47.5px
+				text-align: center
+				color: #000
+
+			.total-sum
+				font-weight: 700
+				background-color: #eaeaea

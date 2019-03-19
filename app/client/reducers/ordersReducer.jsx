@@ -4,6 +4,8 @@ import {orders} from './../data/orders.json'
 
 import {HANDLE_FILTER_FIELD_STATE, HANDLE_CHECK_ALL, HANDLE_CHECK_ITEM, DELETE_ITEM} from "../constans/actionTypes"
 
+let deletedOrders = sessionStorage.getItem('deletedOrders');
+
 const initialState = {
 
     orders: orders,
@@ -20,7 +22,7 @@ const initialState = {
 
     checkedAll: false,
     checkedItems: [],
-
+    deletedOrdersFromStorage: deletedOrders,
 };
 
 export default function ordersReducer(state = initialState, action) {
@@ -89,7 +91,19 @@ export default function ordersReducer(state = initialState, action) {
             }
 
         default:
-            return state;
+
+            if(deletedOrders){
+
+                let newOrderslist = state.orders.filter(item => item.id !== deletedOrders);
+
+                return {
+                    ...state,
+                    orders: newOrderslist
+                };
+
+            }else{
+                return state;
+            }
 
     }
 

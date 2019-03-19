@@ -11,6 +11,7 @@ export const HANDLE_CHECK_ITEM = 'HANDLE_CHECK_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
 export const IS_LOADING = 'IS_LOADING';
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
+export const DELETE_ORDER = 'DELETE_ORDER';
 
 
 

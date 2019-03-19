@@ -1,133 +1,140 @@
-'use strict';
-
-const path = require('path');
 const webpack = require('webpack');
-const fs = require('fs');
-const nodeExternals = require('webpack-node-externals');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const path = require('path');
+const argv = require('yargs').argv;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NodemonPlugin = require('nodemon-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
- 
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+const isDevelopment = argv.mode === 'development';
+const isProduction = !isDevelopment;
+
 module.exports = {
-	entry: [
-		'./app/index.jsx',
-	],
-	output: {
-		filename: 'bundle.js',
-		publicPath: '/',
-		path: path.resolve(__dirname, '/dist'),
-	},
-	
-	mode: 'development',
-	watch: NODE_ENV == 'development',
-
-    /*target: 'node',   // THIS IS THE IMPORTANT PART
-    externals: [nodeExternals()],*/
-
-	module: {
-		rules: [
-			{
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules/,
-				use: ['babel-loader'],
-			},
+    entry: [
+        'react-hot-loader/patch',
+        './app/client/index.jsx'
+    ],
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        publicPath: isDevelopment ? '/' : './',
+        filename: 'bundle.js'
+    },
+    module: {
+        rules: [
             {
-                test: /\.(htm?l)$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: ['html-loader'],
+                use: ['babel-loader']
             },
-			{
-        		test: /\.(css|sass)$/,
-        		use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
-      		},
-			{
-                test: /\.(gif|png|jpe?g|svg)$/,
-                include: path.resolve(__dirname, 'img'),
-                use: [
-                    'file-loader',
-                    {
-                        loader: 'image-webpack-loader',
-                        options: {
-                            bypassOnDebug: true,
-                        },
-                    },
+            {
+                test: /\.sass$/,
+                exclude: /node_modules/,
+                include: [
+                    path.resolve(__dirname, 'app/client/styles/_basic.sass'),
+                    path.resolve(__dirname, 'app/client/containers'),
+                    path.resolve(__dirname, 'app/client/components'),
                 ],
-			},
-           /* {
-                test: /\.html$/,
-                use: ['html-loader'],
-            },*/
-			{
-				test: /\.(ttf|eot|woff|woff2)$/,
-				include: path.resolve(__dirname, '/fonts'),
-				use: 'file?name=[path][name].[ext]?[hash]'
-			},
-		]
-	  },
-	
-	resolve: {
-		extensions: ['*', '.js', '.jsx']
-	},
-	plugins: [
-       /* new NodemonPlugin(),*/
-        new HtmlWebpackPlugin({
-            title: 'My App',
-            filename: 'index.html',
-            template: 'app/index.html',
-            path: path.resolve(__dirname, '/dist')
-		}),
-		new webpack.HotModuleReplacementPlugin(),
-		new ExtractTextPlugin('style.css', { allChunks: true, disable: process.env.NODE_ENV == 'development'}),
-		new webpack.DefinePlugin({
-			NODE_ENV: JSON.stringify(NODE_ENV)
-		}),
-		new LiveReloadPlugin(),
-	],
-	
-	devServer: {
-		historyApiFallback: true,
-		host: 'localhost',
-		contentBase: 'dist',
-		port: 5000,
-		hot: true
-	}
-	
-};
+                use: [
+                    isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: isProduction,
+                            //url: isProduction,
+                            //import: isProduction,
+                            //importLoaders: isProduction ? 2 : 0
+                        }
+                    },
+                    /*'resolve-url-loader',*/
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            //exec: true,
+                            config: {
+                                path: './postcss.config.js'
+                            }
+                        }
+                    },
 
-if(NODE_ENV == 'production'){
-	module.exports.plugins.push(
-		new webpack.optimize.UglifyJsPlugin({
-            beautify: false,
-            comments: false,
-			compress: {
-                sequences: true,
-				warnings: false,
-				drop_console: true,
-				unsafe: true
-			}
-		}),
+                    { loader: 'sass-loader' },
+                ]
+            },
+            {
+                test: /\.(eot|woff|woff2|ttf|svg)$/,
+                use: {
+                    loader: 'url-loader',
+                    query: {
+                        limit: 30000,
+                        name: 'fonts/[name].[ext]',
+                    },
+                },
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: 'images/[name][hash].[ext]'
+                    }
+                }, {
+                    loader: 'image-webpack-loader',
+                    options: {
+                        mozjpeg: {
+                            progressive: true,
+                            quality: 70
+                        }
+                    }
+                },
+                ],
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['*', '.js', '.jsx']
+    },
+    devtool: 'source-map',
+    optimization: isProduction ? {
+        minimizer: [
+            new UglifyJsPlugin({
+                sourceMap: true,
+                uglifyOptions: {
+                    compress: {
+                        inline: false,
+                        warnings: false,
+                        unused: true,
+                        drop_console: true,
+                        unsafe: true,
+                        loops: true
+                    },
+                    output: {
+                        beautify: false,
+                    }
+                },
+            }),
+        ],
+    } : {},
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'styles.css',
+            chunkFilename: '[id].css'
+        }),
+       /* new ExtractTextPlugin('styles.css'),*/
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            test: /\.js$|\.html$/,
-            threshold: 10240,
-            minRatio: 0.8
-        })
-	);
-}
+        new HtmlWebpackPlugin({
+            template: './app/client/index.html',
+            inject: "body"
+        }),
 
-
-
-
-
-
-
-
-
-
-
-
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        contentBase: './dist',
+        port: 5000,
+        inline: true,
+        hot: true
+    }
+};
+isProduction ? module.exports.plugins.push(
+    new CleanWebpackPlugin('dist', {} )
+) : '';

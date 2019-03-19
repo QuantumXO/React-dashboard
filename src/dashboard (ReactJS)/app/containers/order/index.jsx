@@ -160,7 +160,7 @@ class Order extends Component{
                                 </div>
                             </div>
                         </div>
-                        <table className="order__table ">
+                        <table className="order__table">
                             <thead>
                             <tr>
                                 <th scope="col">Reference</th>
