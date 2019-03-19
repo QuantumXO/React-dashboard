@@ -20,32 +20,20 @@ class Order extends PureComponent{
         super(props, context);
 
         this.state = {
-            isLoading: this.props.basicProps.isLoading,
+            isLoading: this.props.basicProps,
             orderData: this.props.orderProps.order,
             listShow: false,
             statusValue: '',
             deleteState: false,
-            location: '',
-            forFixErrMsg: ''
         };
 
-        this.forFixErrMsg = this.forFixErrMsg.bind(this);
         this.deleteOrder = this.deleteOrder.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
         this.handleListState = this.handleListState.bind(this);
-        this.linkToOrdersList = this.linkToOrdersList.bind(this);
         this.handleDeleteState = this.handleDeleteState.bind(this);
 
         this.getListRef = React.createRef();
 
-    }
-
-    linkToOrdersList(){
-
-    }
-
-    forFixErrMsg(){
-        //this.setState({forFixErrMsg: });
     }
 
     deleteOrder(){
@@ -201,7 +189,6 @@ class Order extends PureComponent{
                                 iconName="list"
                                 content="list"
                                 redirectTo="/orders"
-                                handleClickFunc={this.linkToOrdersList}
                                 classes={'default__btn'}
                             />
 
@@ -278,29 +265,29 @@ class Order extends PureComponent{
                             </tr>
 
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td />
+                                <td />
                                 <td>Sum</td>
                                 <td>{total}&nbsp;$</td>
                             </tr>
 
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td />
+                                <td />
                                 <td>Delivery</td>
                                 <td>{delivery}&nbsp;$</td>
                             </tr>
 
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td />
+                                <td />
                                 <td>Tax Rate</td>
                                 <td>{texRate}&nbsp;%</td>
                             </tr>
 
                             <tr className="total-sum">
-                                <td></td>
-                                <td></td>
+                                <td />
+                                <td />
                                 <td>Total</td>
                                 <td>{endSum.toFixed(2)}&nbsp;$</td>
                             </tr>
@@ -315,8 +302,9 @@ class Order extends PureComponent{
 
 function mapStateToProps (state) {
     return {
+        //ordersList: state.ordersReducer.orders[this.props.match.params.id],
         orderProps: state.orderReducer,
-        basicProps: state.basicReducer,
+        isLoading: state.basicReducer.isLoading,
     }
 }
 

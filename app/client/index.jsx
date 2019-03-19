@@ -6,10 +6,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 // React router
-import { BrowserRouter } from 'react-router-dom'
+//import { HashRouter } from 'react-router-dom'
+import { ConnectedRouter } from 'connected-react-router'
 import persistStore from 'redux-phoenix' // localstorage store
 
-import configureStore from './store/configureStore'
+import configureStore, { history } from './store/configureStore'
 import App from "./containers/app";
 
 const store = configureStore();
@@ -17,9 +18,9 @@ const store = configureStore();
 persistStore(store).then(store => {
     ReactDOM.hydrate(
         <Provider store={store}>
-            <BrowserRouter>
+            <ConnectedRouter history={history}>
                 <App />
-            </BrowserRouter>
+            </ConnectedRouter>
         </Provider>,
         document.getElementById('root')
     )

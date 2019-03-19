@@ -1,34 +1,41 @@
 aside
 	float: left
 	margin-top: 20px
-.aside__menu-link
-	display: inline-block
-	align-items: center
-	padding: 12px 16px
-	text-decoration: none
-	color: rgba(0, 0, 0, .54)
-	text-transform: capitalize
-	justify-content: flex-start
-	transition: all .3s ease-in-out
-	svg
-		float: left
-		fill: rgba(0, 0, 0, .54)
-		z-index: 99
-.aside__menu-link.active
-	color: rgba(0, 0, 0, .87)
-	svg
-		fill: rgba(0, 0, 0, .87)
-.aside__menu-link:hover
-	background-color: rgba(0, 0, 0, 0.08)
-.aside__menu-title
-	width: 174px
-	opacity: 1
-	line-height: 24px
-	margin-left: 10px
-	display: inline-block
-	transition: all .3s ease-in-out
-	z-index: 1
-.aside__menu-title.hide
-	opacity: 0
-	width: 56px
-	margin-left: -150px
+.aside
+	&__menu
+		&__link
+			padding: 12px 16px
+			display: inline-block
+			align-items: center
+			text-decoration: none
+			color: rgba(0, 0, 0, .54)
+			text-transform: capitalize
+			justify-content: flex-start
+			transition: all .3s ease-in-out
+
+			svg
+				float: left
+				fill: rgba(0, 0, 0, .54)
+				z-index: 99
+
+			&.active
+				color: rgba(0, 0, 0, .87)
+
+				svg
+					fill: rgba(0, 0, 0, .87)
+			&:hover
+				background-color: rgba(0, 0, 0, 0.08)
+
+		&__title
+			width: 174px
+			margin-left: 10px
+			display: inline-block
+			line-height: 24px
+			opacity: 1
+			transition: all .3s ease-in-out
+			z-index: 1
+
+			&.hide
+				width: 56px
+				margin-left: -150px
+				opacity: 0

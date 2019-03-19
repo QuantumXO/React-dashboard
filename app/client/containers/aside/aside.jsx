@@ -3,9 +3,8 @@
 import './_aside.sass'
 
 import React, {Component} from 'react'
-
 // Router
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const linksArr = [
@@ -25,12 +24,15 @@ class Aside extends Component{
                 <Link
                     to={item.link}
                     data-link={item.title}
-                    className={window.location.pathname === item.link ? 'aside__menu-link active' : 'aside__menu-link'}
+                    //activeClassName="active"
+                    //activeStyle={{ color: 'red' }}
+                    className={window.location.pathname === item.link ? 'aside__menu__link active' : 'aside__menu__link'}
+                    //className={'aside__menu__link'}
                 >
                     <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="false">
                         <path d={item.icon} />
                     </svg>
-                    <span className={this.props.basic.menuLinksHide ? 'aside__menu-title hide' : 'aside__menu-title'}>{item.title}</span>
+                    <span className={this.props.basic.menuLinksHide ? 'aside__menu__title hide' : 'aside__menu__title'}>{item.title}</span>
                 </Link>
             </li>
         );

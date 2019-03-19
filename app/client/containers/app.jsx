@@ -45,7 +45,8 @@ class App extends Component{
 
 function mapStateToProps (state) {
     return {
-        basicData: state.basicReducer
+        basicData: state.basicReducer,
+        router: state.router
     }
 }
 
