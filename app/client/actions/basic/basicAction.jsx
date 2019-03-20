@@ -8,10 +8,10 @@ export function changeMenuState(state){
     }
 }
 
-export function isLoading(state){
+/*export function isLoading(state){
     return {
         type: IS_LOADING,
         loading: state
     }
-}
+}*/
 

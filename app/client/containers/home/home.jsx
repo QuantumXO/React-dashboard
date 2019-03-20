@@ -1,19 +1,62 @@
 'use strict';
 
-import './_home.sass'
+import './_home.sass';
 
-import React, { Component } from 'react'
-import { Helmet } from "react-helmet"
+import React, { PureComponent } from 'react';
+import { Helmet } from "react-helmet";
+import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
-import RevenueBlock from './../../components/home/revenueBlock'
-import NewOrdersBlock from './../../components/home/newOrdersBlock'
-import PendingOrdersBlock from './../../components/home/pendingOrdersBlock'
-import ReviewsBlock from './../../components/home/ReviewsBlock'
-import NewCustomersBlock from './../../components/home/NewCustomersBlock'
+import RevenueBlock from './../../components/home/revenueBlock';
+import ReviewsBlock from './../../components/home/ReviewsBlock';
+import NewOrdersBlock from './../../components/home/newOrdersBlock';
+import NewCustomersBlock from './../../components/home/NewCustomersBlock';
+import PendingOrdersBlock from './../../components/home/pendingOrdersBlock';
+import Preloader from "./../../components/default/preloader";
 
-class Home extends Component{
+import * as basicAction from "../../actions/basic/basicAction";
+import * as homeAction from "../../actions/home/homeAction";
+
+class Home extends PureComponent{
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            isLoading: '',
+            randomNewUsers: [],
+        }
+    }
+
+    componentDidMount() {
+
+        this.props.homeAction.getRandomNewUsers(15);
+
+    }
+
+    componentDidUpdate(prevProps) {
+
+        const {isLoading, randomNewUsers} = this.props.homeProps;
+
+        if(prevProps.isLoading !== isLoading) {
+
+            this.setState({
+                isLoading: isLoading,
+                //randomNewUsers: randomNewUsers
+            });
+
+        }
+    }
 
     render(){
+
+        if(this.state.isLoading){
+            return(
+                <Preloader />
+            )
+        }
+
         return(
             <div className='home__wrap clearfix'>
                 <Helmet>
@@ -49,7 +92,7 @@ class Home extends Component{
 
                 <div className="home__inner">
                     <ReviewsBlock />
-                    <NewCustomersBlock />
+                    <NewCustomersBlock randomNewUserslist={this.props.homeProps.randomNewUsers} />
                 </div>
 
             </div>
@@ -58,7 +101,28 @@ class Home extends Component{
 
 }
 
-export default Home
+Home.propTypes = {
+    homeProps: PropTypes.shape({
+        isLoading: PropTypes.boolean,
+        randomNewUsers: PropTypes.array,
+    }),
+};
+
+function mapStateToProps (state) {
+    return {
+        basicProps: state.basicReducer,
+        homeProps: state.homeReducer,
+    }
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        basicAction: bindActionCreators(basicAction, dispatch),
+        homeAction: bindActionCreators(homeAction, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
 
 
 

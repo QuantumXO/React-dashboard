@@ -145,13 +145,14 @@
 			flex: 1
 
 		&__list
-			max-height: 416px
+			max-height: 736px
 			overflow-x: hidden
 			overflow-y: auto
 
 		&.list
 			max-height: 832px
-			padding-bottom: 8px
+			padding-bottom: 15px
+			overflow: hidden
 
 			.home__block__content
 				padding-right: 24px
@@ -159,7 +160,7 @@
 				line-height: 46px
 
 			.link
-				display: block
+				display: flex
 				padding: 8px 0 8px 24px
 				align-items: center
 				text-decoration: none
@@ -167,14 +168,18 @@
 				transition: background-color .2s ease-in-out
 
 			img
-				float: left
+				width: 50px
 				margin-right: 16px
+				padding: 3px
+				float: left
+				border-radius: 50%
+				border: 2px solid #4caf50
 
 			.text
 				overflow: hidden
 				display: -webkit-box
 				-webkit-line-clamp: 2
-				color: rgba(0, 0, 0, 0.54)
+				color: rgba(0, 0, 0, .54)
 				-webkit-box-orient: vertical
 
 			.home__block__item
@@ -187,8 +192,8 @@
 				.home__block__content
 					line-height: em(18)
 
-				.link
-					display: flex
+				img
+					border-color: #f44336
 
 		&.reviews
 			flex: 1 1 0

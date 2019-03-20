@@ -7,7 +7,6 @@ import {
     HANDLE_CHECK_ALL,
     HANDLE_CHECK_ITEM,
     DELETE_ITEM,
-    GET_ORDER_DATA
 } from "../constans/actionTypes"
 
 let deletedOrders = sessionStorage.getItem('deletedOrders');
@@ -95,14 +94,6 @@ export default function ordersReducer(state = initialState, action) {
                     orders: orders
                 }
             }
-
-        case GET_ORDER_DATA:
-
-            const orderData = state.orders.filter(item => item.id == action.orderId);
-
-            return {
-                order123: {...orderData[0]}
-            };
 
         default:
 

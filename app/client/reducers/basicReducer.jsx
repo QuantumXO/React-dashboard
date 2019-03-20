@@ -1,6 +1,6 @@
 'use strict';
 
-import { CHANGE_MENU_STATE, IS_LOADING } from '../constans/actionTypes'
+import { CHANGE_MENU_STATE, IS_LOADING } from '../constans/actionTypes';
 
 const initialState = {
 
@@ -17,7 +17,7 @@ export default function basicReducer(state = initialState, action) {
     switch (action.type){
 
         case CHANGE_MENU_STATE:
-            console.log(action);
+
             return{
                 ...state,
                     menuLinksHide: action.payload

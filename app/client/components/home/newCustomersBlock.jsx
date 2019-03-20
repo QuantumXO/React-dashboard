@@ -14,16 +14,46 @@ const newCustomersListArr = [
 
 class NewCustomersBlock extends PureComponent{
 
-
     render(){
-        const newCustomersList = newCustomersListArr.map((item, i) =>
+
+        console.log('randomNewUserslist: ', this.props.randomNewUserslist);
+
+        const randomNewUserslist = this.props.randomNewUserslist.map(function(item, i){
+
+            return(
+
+                <li className="home__block__item" key={i} >
+
+                    <Link to={`customer/${i}`} className='link clearfix'>
+                        <img src={item.picture.large} alt="customer photo" width='40' />
+                        <span className="home__block__content">{item.name.first} {item.name.last}</span>
+                    </Link>
+                </li>
+            )
+
+
+        }
+
+
+        );
+
+        /*const newCustomersList = this.props.randomNewUserslist.map((item, i) =>
             <li className="home__block__item" key={i} >
                 <Link to={`customer/${i}`} className='link clearfix'>
                     <img src={item.img} alt="customer photo" width='40' />
                     <span className="home__block__content">{item.name}</span>
                 </Link>
             </li>
-        );
+        );*/
+
+       /* const newCustomersList = newCustomersListArr.map((item, i) =>
+            <li className="home__block__item" key={i} >
+                <Link to={`customer/${i}`} className='link clearfix'>
+                    <img src={item.img} alt="customer photo" width='40' />
+                    <span className="home__block__content">{item.name}</span>
+                </Link>
+            </li>
+        );*/
 
         return(
             <div className='home__block list customers'>
@@ -38,8 +68,8 @@ class NewCustomersBlock extends PureComponent{
                         </svg>
                     </div>
                 </div>
-                <ul className="home__block-list">
-                    {newCustomersList}
+                <ul className="home__block__list">
+                    {randomNewUserslist}
                 </ul>
             </div>
         )

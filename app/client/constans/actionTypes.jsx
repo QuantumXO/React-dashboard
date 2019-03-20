@@ -12,6 +12,9 @@ export const DELETE_ITEM = 'DELETE_ITEM';
 export const IS_LOADING = 'IS_LOADING';
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
 export const DELETE_ORDER = 'DELETE_ORDER';
+//export const GET_RANDOM_NEW_USERS = 'GET_RANDOM_NEW_USERS';
+export const REQUEST_FAILED = 'REQUEST_FAILED';
+export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
 
 
 

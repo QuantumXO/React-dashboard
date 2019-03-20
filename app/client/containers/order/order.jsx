@@ -12,7 +12,6 @@ import * as basicAction from "../../actions/basic/basicAction"
 
 import Preloader from "../ordersList/ordersList"
 import Button from './../../components/default/button'
-import Modal from '../../components/default/modal/modal'
 
 class Order extends PureComponent{
 
@@ -68,13 +67,7 @@ class Order extends PureComponent{
             this.setState({
                 orderData: order,
             });
-        }else if(prevProps.location !== location) {
-            this.setState({
-                location: location,
-            }, function () {
-                //history.push(this.state.location);
-                this.props.match.url = this.state.location;
-            });
+
         }
     }
 
@@ -167,17 +160,6 @@ class Order extends PureComponent{
                 <Helmet>
                     <title>Order № {this.props.match.params.id}</title>
                 </Helmet>
-
-                {this.state.deleteState ? (
-                    <Modal
-                        event='delete'
-                        item="order"
-                        data={{reference, customer, status, id}}
-                        //btns={""}
-                        submitFunc={this.deleteOrder}
-                        //cancelFunc={""}
-                    />
-                ) : null}
 
                 <div className="order__header">
                     <h2 className="order__header__title">Order #{reference}</h2>
@@ -302,7 +284,6 @@ class Order extends PureComponent{
 
 function mapStateToProps (state) {
     return {
-        //ordersList: state.ordersReducer.orders[this.props.match.params.id],
         orderProps: state.orderReducer,
         isLoading: state.basicReducer.isLoading,
     }

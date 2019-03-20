@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { Helmet } from "react-helmet"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
 
 import Preloader from './../../components/default/preloader'
 import Search from './../../components/orders/search'
@@ -258,11 +259,16 @@ class OrdersList extends Component{
                     checkAllFunc={this.props.tableAction.handleCheckAll}
                     checkItemsFunc={this.props.tableAction.handleCheckItem}
                 />
+
             </div>
         )
     }
 
 }
+
+OrdersList.propTypes = {
+    OrdersList: PropTypes.string // ????????
+};
 
 function mapStateToProps (state) {
     return {
@@ -280,4 +286,3 @@ function mapDispatchToProps (dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersList)
-
