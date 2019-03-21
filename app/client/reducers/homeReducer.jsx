@@ -28,7 +28,6 @@ export default function homeReducer(state = initialState, action) {
 
         case REQUEST_SUCCESS:
 
-            console.log('action: ', action.data.data.results);
             return {
                 ...state,
                 randomNewUsers: [...action.data.data.results],

@@ -1,21 +1,21 @@
 'use strict';
 
-import './styles/_basic.sass'
+import './styles/_basic.sass';
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 // React router
-//import { HashRouter } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
-import persistStore from 'redux-phoenix' // localstorage store
+import { HashRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import persistStore from 'redux-phoenix' // localstorage store;
 
-import configureStore, { history } from './store/configureStore'
+import configureStore, { history } from './store/configureStore';
 import App from "./containers/app";
 
 const store = configureStore();
 
-persistStore(store).then(store => {
+/*persistStore(store).then(store => {
     ReactDOM.hydrate(
         <Provider store={store}>
             <ConnectedRouter history={history}>
@@ -24,7 +24,16 @@ persistStore(store).then(store => {
         </Provider>,
         document.getElementById('root')
     )
-});
+});*/
+
+ReactDOM.hydrate(
+    <Provider store={store}>
+        <HashRouter>
+            <App />
+        </HashRouter>
+    </Provider>,
+    document.getElementById('root')
+);
 
 if (module.hot) {
     module.hot.accept();

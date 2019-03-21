@@ -19,7 +19,6 @@ import Preloader from "./../../components/default/preloader";
 import * as basicAction from "../../actions/basic/basicAction";
 import * as homeAction from "../../actions/home/homeAction";
 
-
 class Home extends PureComponent{
 
     constructor(props){
@@ -33,7 +32,9 @@ class Home extends PureComponent{
     }
 
     componentDidMount() {
-        this.props.homeAction.getRandomNewUsers(15);
+        const randomNumber =  Math.round(10 - 0.5 + Math.random() * (25 - 10 + 1));
+
+        this.props.homeAction.getRandomNewUsers(randomNumber);
 
     }
 

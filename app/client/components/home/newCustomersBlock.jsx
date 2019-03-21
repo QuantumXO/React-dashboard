@@ -31,34 +31,13 @@ class NewCustomersBlock extends PureComponent{
                     </Link>
                 </li>
             )
-        }
-
-
-        );
-
-        /*const newCustomersList = this.props.randomNewUserslist.map((item, i) =>
-            <li className="home__block__item" key={i} >
-                <Link to={`customer/${i}`} className='link clearfix'>
-                    <img src={item.img} alt="customer photo" width='40' />
-                    <span className="home__block__content">{item.name}</span>
-                </Link>
-            </li>
-        );*/
-
-       /* const newCustomersList = newCustomersListArr.map((item, i) =>
-            <li className="home__block__item" key={i} >
-                <Link to={`customer/${i}`} className='link clearfix'>
-                    <img src={item.img} alt="customer photo" width='40' />
-                    <span className="home__block__content">{item.name}</span>
-                </Link>
-            </li>
-        );*/
+        });
 
         return(
             <div className='home__block list customers'>
                 <div className="home__block__header clearfix">
                     <div className="home__block__info">
-                        <span className="home__block__count">{newCustomersListArr.length}</span>
+                        <span className="home__block__count">{randomNewUserslist.length}</span>
                         <span className="home__block__sbt">New Customers</span>
                     </div>
                     <div className="home__block__icon">

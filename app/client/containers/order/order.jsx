@@ -1,17 +1,18 @@
 'use strict';
 
-import './_order.sass'
+import './_order.sass';
 
-import React, {PureComponent, Component} from 'react'
+import React, {PureComponent, Component} from 'react';
 import {Helmet} from "react-helmet";
-import {connect} from 'react-redux'
-import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux';
+import ReactDOM from 'react-dom';
+import { bindActionCreators } from 'redux';
 
-import * as orderAction from '../../actions/order/orderAction'
-import * as basicAction from "../../actions/basic/basicAction"
+import * as orderAction from '../../actions/order/orderAction';
+import * as basicAction from "../../actions/basic/basicAction";
 
-import Preloader from "../ordersList/ordersList"
-import Button from './../../components/default/button'
+import Preloader from "../ordersList/ordersList";
+import Button from './../../components/default/button';
 
 class Order extends PureComponent{
 
@@ -29,6 +30,7 @@ class Order extends PureComponent{
         this.deleteOrder = this.deleteOrder.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
         this.handleListState = this.handleListState.bind(this);
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
         this.handleDeleteState = this.handleDeleteState.bind(this);
 
         this.getListRef = React.createRef();
@@ -41,6 +43,16 @@ class Order extends PureComponent{
             this.props.orderAction.deleteOrder(this.state.orderData.id);
         }else{
             this.setState({deleteState: true});
+        }
+    }
+
+    handleOutsideClick(e){
+        const target = e.target;
+
+        const domNode = ReactDOM.findDOMNode(this.getListRef.current);
+
+        if (!domNode || !domNode.contains(target)){
+            this.setState({listShow: false});
         }
     }
 
@@ -59,6 +71,23 @@ class Order extends PureComponent{
 
     }
 
+    handleListState(){
+        this.setState({listShow: !this.state.listShow});
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleOutsideClick, false);
+    }
+
+    componentDidMount(){
+
+        document.body.addEventListener('click', this.handleOutsideClick, false);
+
+        const orderId = this.props.match.params.id;
+
+        this.props.orderAction.getOrderData(orderId);
+
+    }
     componentDidUpdate(prevProps) {
 
         const {order, location} = this.props.orderProps;
@@ -69,26 +98,6 @@ class Order extends PureComponent{
             });
 
         }
-    }
-
-    handleListState(){
-        this.setState({listShow: !this.state.listShow});
-    }
-
-    componentDidMount(){
-
-        /*setTimeout(() => {
-            this.setState({
-                isLoading: false
-            }, function () {
-                this.props.basicAction.isLoading(false);
-            })
-        }, 0); // 1000
-*/
-        const orderId = this.props.match.params.id;
-
-        this.props.orderAction.getOrderData(orderId);
-
     }
 
     render(){
