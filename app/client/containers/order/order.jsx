@@ -77,14 +77,14 @@ class Order extends PureComponent{
 
     componentDidMount(){
 
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.setState({
                 isLoading: false
             }, function () {
                 this.props.basicAction.isLoading(false);
             })
         }, 0); // 1000
-
+*/
         const orderId = this.props.match.params.id;
 
         this.props.orderAction.getOrderData(orderId);

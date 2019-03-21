@@ -1,9 +1,9 @@
 'use strict';
 
 // React
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from 'react';
 // Router
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const newCustomersListArr = [
     {img: '//robohash.org/d4c86ee2c4301b366e4d806b16113e35.png?size=32x32', name: 'Warren Mathis'},
@@ -16,8 +16,6 @@ class NewCustomersBlock extends PureComponent{
 
     render(){
 
-        console.log('randomNewUserslist: ', this.props.randomNewUserslist);
-
         const randomNewUserslist = this.props.randomNewUserslist.map(function(item, i){
 
             return(
@@ -26,12 +24,13 @@ class NewCustomersBlock extends PureComponent{
 
                     <Link to={`customer/${i}`} className='link clearfix'>
                         <img src={item.picture.large} alt="customer photo" width='40' />
-                        <span className="home__block__content">{item.name.first} {item.name.last}</span>
+                        <div className="home__block__content">
+                            <span className="capitalize">{item.name.first}</span>&nbsp;
+                            <span className="capitalize">{item.name.last}</span>
+                        </div>
                     </Link>
                 </li>
             )
-
-
         }
 
 

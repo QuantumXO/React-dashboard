@@ -104,14 +104,14 @@ class OrdersList extends Component{
 
     componentDidMount(){
 
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.setState({
                 isLoading: false
             }, function () {
                 this.props.basicAction.isLoading(false);
             })
         }, 0); // 1000
-
+*/
     }
 
     render() {
