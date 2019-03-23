@@ -6,6 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const isDevelopment = argv.mode === 'development';
 const isProduction = !isDevelopment;
@@ -20,12 +21,18 @@ module.exports = {
         publicPath: isDevelopment ? '/' : './',
         filename: 'bundle.js'
     },
+    cache: true,
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true
+                    }
+                }]
             },
             {
                 test: /\.sass$/,
@@ -83,7 +90,11 @@ module.exports = {
                         mozjpeg: {
                             progressive: true,
                             quality: 70
-                        }
+                        },
+                        pngquant: {
+                            quality: '65-90',
+                            speed: 4
+                        },
                     }
                 },
                 ],
@@ -115,6 +126,10 @@ module.exports = {
         ],
     } : {},
     plugins: [
+
+        new webpack.HotModuleReplacementPlugin(),
+        new HardSourceWebpackPlugin(),
+
         new MiniCssExtractPlugin({
             filename: 'styles.css',
             chunkFilename: '[id].css'
@@ -125,8 +140,6 @@ module.exports = {
             template: './app/client/index.html',
             inject: "body"
         }),
-
-        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         contentBase: './dist',

@@ -1,22 +1,22 @@
 'use strict';
 
-import './_ordersList.sass'
+import './_ordersList.sass';
 
-import React, { Component } from 'react'
-import { Helmet } from "react-helmet"
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
+import { Helmet } from "react-helmet";
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 
-import Preloader from './../../components/default/preloader'
-import Search from './../../components/orders/search'
-import Button from './../../components/default/button'
-import OrdersTable from './../../components/orders/table'
-import FilterList from './../../components/orders/FilterList'
+import Preloader from './../../components/default/preloader';
+import Search from './../../components/orders/search';
+import Button from './../../components/default/button';
+import OrdersTable from './../../components/orders/table';
+import FilterList from './../../components/orders/FilterList';
 
-import * as filterAction from '../../actions/ordersList/filterAction'
-import * as tableAction from '../../actions/ordersList/tableAction'
-import * as basicAction from '../../actions/basic/basicAction'
+import * as filterAction from '../../actions/ordersList/filterAction';
+import * as tableAction from '../../actions/ordersList/tableAction';
+import * as basicAction from '../../actions/basic/basicAction';
 
 class OrdersList extends Component{
 
@@ -224,7 +224,7 @@ class OrdersList extends Component{
                                 iconName="filter"
                                 content="add filter"
                                 handleClickFunc={this.addFilter}
-                                classes={'default__btn'}
+                                classes={'default__btn need-fix'}
                             />
 
                             <Button
@@ -267,7 +267,7 @@ class OrdersList extends Component{
 }
 
 OrdersList.propTypes = {
-    OrdersList: PropTypes.string // ????????
+    //OrdersList: PropTypes.string // ????????
 };
 
 function mapStateToProps (state) {

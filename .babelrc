@@ -4,8 +4,10 @@
       "loose": true
     }],
     "react",
-    "stage-2",
-    "flow"
+    "stage-2"
   ],
-  "plugins": ["add-module-exports"]
+  "plugins": [
+    "add-module-exports",
+    "react-hot-loader/babel"
+  ]
 }

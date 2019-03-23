@@ -6,7 +6,7 @@ import {
     HANDLE_FILTER_FIELD_STATE,
     HANDLE_CHECK_ALL,
     HANDLE_CHECK_ITEM,
-    DELETE_ITEM,
+    DELETE_ITEM, DELETE_ORDER,
 } from "../constans/actionTypes"
 
 let deletedOrders = sessionStorage.getItem('deletedOrders');
@@ -75,6 +75,19 @@ export default function ordersReducer(state = initialState, action) {
                     checkedItems: [...state.checkedItems, action.checkedItem]
                 }
             }
+
+        case DELETE_ORDER:
+            console.log('ordersReducer.jsx -> DELETE_ORDER');
+
+            //action.orderId
+            const orders = state.orders.filter(function(item) {
+                return item.id !== action.orderId;
+            });
+
+            return {
+                ...state,
+                orders: orders
+            };
 
         case DELETE_ITEM:
             if(state.checkedAll){

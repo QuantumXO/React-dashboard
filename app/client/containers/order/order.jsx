@@ -2,15 +2,17 @@
 
 import './_order.sass';
 
-import React, {PureComponent, Component} from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {Helmet} from "react-helmet";
 import {connect} from 'react-redux';
-import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
+import React, {PureComponent, Component} from 'react';
 
 import * as orderAction from '../../actions/order/orderAction';
 import * as basicAction from "../../actions/basic/basicAction";
 
+import DeleteConfirm from './../../components/order/deleteConfirm';
 import Preloader from "../ordersList/ordersList";
 import Button from './../../components/default/button';
 
@@ -20,7 +22,7 @@ class Order extends PureComponent{
         super(props, context);
 
         this.state = {
-            isLoading: this.props.basicProps,
+            //isLoading: this.props.basicProps,
             orderData: this.props.orderProps.order,
             listShow: false,
             statusValue: '',
@@ -34,16 +36,10 @@ class Order extends PureComponent{
         this.handleDeleteState = this.handleDeleteState.bind(this);
 
         this.getListRef = React.createRef();
-
     }
 
     deleteOrder(){
-
-        if(this.state.deleteState){
-            this.props.orderAction.deleteOrder(this.state.orderData.id);
-        }else{
-            this.setState({deleteState: true});
-        }
+        this.setState({deleteState: true});
     }
 
     handleOutsideClick(e){
@@ -51,7 +47,7 @@ class Order extends PureComponent{
 
         const domNode = ReactDOM.findDOMNode(this.getListRef.current);
 
-        if (!domNode || !domNode.contains(target)){
+        if ((!domNode || !domNode.contains(target)) && !target.classList.contains('status-inner')){
             this.setState({listShow: false});
         }
     }
@@ -114,53 +110,16 @@ class Order extends PureComponent{
 
         if(this.state.deleteState){
             return(
-                <div className='order__wrap clearfix'>
-
+                <React.Fragment>
                     <Helmet>
-                        <title>Delete Order # {this.props.match.params.id}</title>
+                        <title>{'Delete Order # ' + id}</title>
                     </Helmet>
-                    <div className="order__header">
-                        <h2 className="order__header__title">Delete Order #{id}</h2>
-                        <div className="order__header__settings">
-                            <div className="order__header__inner">
-
-                                <Button
-                                    type="link"
-                                    iconName="list"
-                                    content="list"
-                                    redirectTo="/orders"
-                                    handleClickFunc={this.linkToOrdersList}
-                                    classes={'default__btn'}
-                                />
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className="order__inner">
-                        <p>Are you sure ?</p>
-
-                        <div className="order__inner__footer">
-
-                            <Button
-                                type="link"
-                                iconName="success"
-                                content="delete"
-                                redirectTo="/orders"
-                                handleClickFunc={this.deleteOrder}
-                                classes={'default__btn success'}
-                            />
-
-                            <Button
-                                iconName="cancel"
-                                content="cancel"
-                                handleClickFunc={this.handleDeleteState}
-                                classes={'default__btn cancel'}
-                            />
-
-                        </div>
-                    </div>
-
-                </div>
+                    <DeleteConfirm
+                        id={id}
+                        deleteOrderFunc={this.props.orderAction.deleteOrder}
+                        handleDeleteStateFunc={this.handleDeleteState}
+                    />
+                </React.Fragment>
             )
         }
 
@@ -179,7 +138,7 @@ class Order extends PureComponent{
                                 type="link"
                                 iconName="list"
                                 content="list"
-                                redirectTo="/orders"
+                                linkTo="/orders"
                                 classes={'default__btn'}
                             />
 
@@ -304,5 +263,21 @@ function mapDispatchToProps (dispatch) {
         orderAction: bindActionCreators(orderAction, dispatch),
     }
 }
+
+Order.propTypes = {
+    //isLoading: PropTypes.boolean,
+    orderProps: PropTypes.shape({
+        texRate: PropTypes.number,
+        delivery: PropTypes.number,
+        order: PropTypes.shape({
+            customer: PropTypes.string,
+            id: PropTypes.number,
+            total: PropTypes.number,
+            status: PropTypes.string,
+            nbItems: PropTypes.number,
+            date: PropTypes.string,
+        }),
+    }),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order)

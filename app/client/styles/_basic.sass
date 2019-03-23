@@ -54,3 +54,28 @@ main
 .capitalize
   text-transform: capitalize
 
+.need-fix
+  position: relative
+  user-select: none
+  border: 2px solid red!important
+  cursor: default
+
+  &:after
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    position: absolute
+    color: red
+    content: 'need fix'
+    font-weight: 700
+    font-size: em(19)
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif
+    background-color: rgba(#fff, .8)
+
+
+
+

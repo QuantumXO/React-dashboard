@@ -4,13 +4,12 @@
 import React from 'react'
 
 // React router
-import { Switch, Route } from 'react-router-dom'
-
+import { Switch, Route } from 'react-router-dom';
 // Containers
-import Home from './../containers/home/home'
-import Customers from './../containers/customers/customers'
-import OrdersList from '../containers/ordersList/ordersList'
-import Order from "../containers/order/order"
+import Home from './../containers/home/home';
+import Order from "../containers/order/order";
+import Customers from './../containers/customers/customers';
+import OrdersList from '../containers/ordersList/ordersList';
 /*import Admin from "../containers/admin";*/
 
 const Routes = () => {

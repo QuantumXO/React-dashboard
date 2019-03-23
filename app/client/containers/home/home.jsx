@@ -2,11 +2,11 @@
 
 import './_home.sass';
 
-import React, { PureComponent } from 'react';
-import { Helmet } from "react-helmet";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
+import { Helmet } from "react-helmet";
 import {bindActionCreators} from "redux";
+import React, { PureComponent } from 'react';
 import { Link, NavLink } from 'react-router-dom'
 
 import RevenueBlock from './../../components/home/revenueBlock';
