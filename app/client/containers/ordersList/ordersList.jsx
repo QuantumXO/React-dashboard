@@ -27,7 +27,7 @@ class OrdersList extends Component{
             searchData: [], // [{type: '', value: ''}]
             coincidence: '', // for highlight
             upd: false,
-            isLoading: this.props.basicProps.isLoading,
+            //isLoading: this.props.basicProps.isLoading,
             //checkedAll: this.props.ordersListProps.checkedAll,
             //checkedItems: this.props.ordersListProps.checkedItems,
             showFilterList: false,
@@ -155,7 +155,7 @@ class OrdersList extends Component{
                             customer.match(fieldDataValue) ||
                             order.status.match(fieldDataValue) ||
                             order.time.match(fieldDataValue) ||
-                            order.total.match(fieldDataValue) ||
+                            order.total.toString().match(fieldDataValue) ||
                             order.date.match(fieldDataValue)
                         ){
                             if(newOrdersArr.indexOf(order) == -1){
@@ -171,27 +171,6 @@ class OrdersList extends Component{
             }
 
         }
-
-
-        /*if(this.state.searchValue){
-            let searchValue = this.state.searchValue;
-            newOrdersArr = [];
-
-            for(let i=0; i < orders.length; i++){
-
-                if(
-                    orders[i].reference.match(searchValue) ||
-                    customer.match(searchValue) ||
-                    orders[i].status.match(searchValue) ||
-                    orders[i].time.match(searchValue) ||
-                    orders[i].total.match(searchValue) ||
-                    orders[i].date.match(searchValue)
-                ){
-                    newOrdersArr.push(orders[i]);
-                }
-            }
-
-        }*/
 
         if(this.state.isLoading){
             return(

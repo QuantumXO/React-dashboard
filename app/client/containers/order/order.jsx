@@ -12,20 +12,23 @@ import React, {PureComponent, Component} from 'react';
 import * as orderAction from '../../actions/order/orderAction';
 import * as basicAction from "../../actions/basic/basicAction";
 
-import DeleteConfirm from './../../components/order/deleteConfirm';
 import Preloader from "../ordersList/ordersList";
 import Button from './../../components/default/button';
+import DeleteConfirm from './../../components/order/deleteConfirm';
+import DataTable from './../../components/order/dataTable';
 
 class Order extends PureComponent{
 
     constructor(props, context){
         super(props, context);
 
+        const order = this.props.orderProps.order;
+
         this.state = {
-            //isLoading: this.props.basicProps,
-            orderData: this.props.orderProps.order,
+            orderData: order,
             listShow: false,
-            statusValue: '',
+            currentStatus: '',
+            newStatus: '',
             deleteState: false,
         };
 
@@ -44,7 +47,6 @@ class Order extends PureComponent{
 
     handleOutsideClick(e){
         const target = e.target;
-
         const domNode = ReactDOM.findDOMNode(this.getListRef.current);
 
         if ((!domNode || !domNode.contains(target)) && !target.classList.contains('status-inner')){
@@ -57,22 +59,17 @@ class Order extends PureComponent{
     }
 
     handleStatus(e){
-
         const targetValue = e.target.innerHTML;
 
         this.setState({
-            statusValue: targetValue,
-            listShow: false
+            newStatus: targetValue,
+            listShow: false,
         });
 
     }
 
     handleListState(){
         this.setState({listShow: !this.state.listShow});
-    }
-
-    componentWillUnmount() {
-        document.body.removeEventListener('click', this.handleOutsideClick, false);
     }
 
     componentDidMount(){
@@ -84,6 +81,10 @@ class Order extends PureComponent{
         this.props.orderAction.getOrderData(orderId);
 
     }
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleOutsideClick, false);
+    }
+
     componentDidUpdate(prevProps) {
 
         const {order, location} = this.props.orderProps;
@@ -91,35 +92,34 @@ class Order extends PureComponent{
         if(prevProps.order !== order) {
             this.setState({
                 orderData: order,
+                currentStatus: order.status,
             });
 
         }
     }
 
     render(){
+        const {reference, date, customer, status, id} = this.state.orderData;
+        const statusesListArr = ['delivered', 'ordered', 'cancelled'];
 
-        const {reference, date, customer, status, total, nbItems, id} = this.state.orderData;
-        const {delivery, texRate} = this.props.orderProps;
-        const endSum = Number(total) + Number(delivery) + (Number(total) * (Number(texRate) / 100));
-
-        if(this.state.isLoading){
-            return(
-                <Preloader />
-            )
-        }
+        const statusesList = statusesListArr.filter(item => {
+            if(this.state.newStatus){
+                return item !== this.state.newStatus;
+            }
+            else{
+                return item !== this.state.currentStatus;
+            }
+        }).map((item, i) => (
+            <li key={i} className="order__status__item"><span>{item}</span></li>
+        ));
 
         if(this.state.deleteState){
             return(
-                <React.Fragment>
-                    <Helmet>
-                        <title>{'Delete Order # ' + id}</title>
-                    </Helmet>
-                    <DeleteConfirm
-                        id={id}
-                        deleteOrderFunc={this.props.orderAction.deleteOrder}
-                        handleDeleteStateFunc={this.handleDeleteState}
-                    />
-                </React.Fragment>
+                <DeleteConfirm
+                    id={id}
+                    deleteOrderFunc={this.props.orderAction.deleteOrder}
+                    handleDeleteStateFunc={this.handleDeleteState}
+                />
             )
         }
 
@@ -175,8 +175,8 @@ class Order extends PureComponent{
                             <label style={{left: '-1px'}}>status</label>
 
                             <div className="order__edit__field status-inner" onClick={this.handleListState}>
-                                <span style={{marginLeft: '0'}}>{this.state.statusValue ? this.state.statusValue : status}</span>
-                                <input type="hidden" value={this.state.statusValue ? this.state.statusValue : (status || '')} onChange={this.forFixErrMsg} />
+                                <span style={{marginLeft: '0'}}>{this.state.newStatus ? this.state.newStatus : status}</span>
+                                <input type="hidden" value={this.state.newStatus ? this.state.newStatus : (status || '')} onChange={this.forFixErrMsg} />
                                 <svg className={this.state.listShow ? "arrow active" : "arrow"} width='24' height='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M7 10l5 5 5-5z" />
                                 </svg>
@@ -188,62 +188,27 @@ class Order extends PureComponent{
                                 onClick={this.handleStatus}
                                 className={"order__status__list" + (this.state.listShow ? " show" : "")}
                             >
-                                <li className="order__status__item"><span>delivered</span></li>
-                                <li className="order__status__item"><span>ordered</span></li>
-                                <li className="order__status__item"><span>cancelled</span></li>
+                                {statusesList}
                             </ul>
 
                         </div>
 
+                        {this.state.newStatus &&
+                            (
+                                <div className="order__edit__footer">
+                                    <Button
+                                        iconName="save"
+                                        content="save"
+                                        handleClickFunc={this.refresh}
+                                        classes={'default__btn save'}
+                                    />
+                                </div>
+                            )
+                        }
+
                     </div>
 
-                    <table className="order__data">
-                        <thead>
-                            <tr>
-                                <th scope="col">Reference</th>
-                                <th scope="col">Unit Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{reference}</td>
-                                <td>{total / nbItems}&nbsp;$</td>
-                                <td>{nbItems}</td>
-                                <td>{total}&nbsp;$</td>
-                            </tr>
-
-                            <tr>
-                                <td />
-                                <td />
-                                <td>Sum</td>
-                                <td>{total}&nbsp;$</td>
-                            </tr>
-
-                            <tr>
-                                <td />
-                                <td />
-                                <td>Delivery</td>
-                                <td>{delivery}&nbsp;$</td>
-                            </tr>
-
-                            <tr>
-                                <td />
-                                <td />
-                                <td>Tax Rate</td>
-                                <td>{texRate}&nbsp;%</td>
-                            </tr>
-
-                            <tr className="total-sum">
-                                <td />
-                                <td />
-                                <td>Total</td>
-                                <td>{endSum.toFixed(2)}&nbsp;$</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
+                    <DataTable orderData={this.state.orderData} orderProps={this.props.orderProps} />
                 </div>
             </div>
         )

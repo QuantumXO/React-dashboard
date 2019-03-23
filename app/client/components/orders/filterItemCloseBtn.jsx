@@ -1,21 +1,20 @@
 'use strict';
 
-import React, {PureComponent} from 'react'
+import React from 'react'
 
 
-export default class FilterItemCloseBtn extends PureComponent{
+const FilterItemCloseBtn = ({classes, close, fieldHideFunc}) => {
 
-    render() {
-        return(
-            <span
-                className={this.props.classes}
-                data-close={this.props.close}
-                onClick={this.props.fieldHideFunc}
-            >
+    return(
+        <span
+            className={classes}
+            data-close={close}
+            onClick={fieldHideFunc}
+        >
             x
-            </span>
-        )
-    }
-}
+        </span>
+    )
+};
 
+export default FilterItemCloseBtn
 

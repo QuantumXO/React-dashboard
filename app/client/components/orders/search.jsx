@@ -1,4 +1,3 @@
-
 'use strict';
 
 import React, {PureComponent} from 'react'
@@ -113,11 +112,8 @@ class Search extends PureComponent{
         );
 
         return(
-
             <div className="orders_search__wrap clearfix">
-
                 {fields}
-
             </div>
         )
     }
