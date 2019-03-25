@@ -7,17 +7,17 @@ import {connect} from "react-redux";
 import { Helmet } from "react-helmet";
 import {bindActionCreators} from "redux";
 import React, { PureComponent } from 'react';
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom';
 
+import Preloader from "./../../components/default/preloader";
 import RevenueBlock from './../../components/home/revenueBlock';
 import ReviewsBlock from './../../components/home/ReviewsBlock';
 import NewOrdersBlock from './../../components/home/newOrdersBlock';
 import NewCustomersBlock from './../../components/home/NewCustomersBlock';
 import PendingOrdersBlock from './../../components/home/pendingOrdersBlock';
-import Preloader from "./../../components/default/preloader";
 
-import * as basicAction from "../../actions/basic/basicAction";
 import * as homeAction from "../../actions/home/homeAction";
+import * as basicAction from "../../actions/basic/basicAction";
 
 class Home extends PureComponent{
 
@@ -25,27 +25,30 @@ class Home extends PureComponent{
         super(props);
 
         this.state = {
-            isLoading: '',
+            isLoading: true,
             randomNewUsers: [],
+            pendingReviews: [],
         };
 
     }
 
     componentDidMount() {
+
         const randomNumber =  Math.round(10 - 0.5 + Math.random() * (25 - 10 + 1));
 
         this.props.homeAction.getRandomNewUsers(randomNumber);
+        this.props.homeAction.getPendingReviews(randomNumber);
 
     }
 
     componentDidUpdate(prevProps) {
 
-        const {isLoading, randomNewUsers} = this.props.homeProps;
+        const {isLoading, randomNewUsers} = this.props.basicProps;
 
         if(prevProps.isLoading !== isLoading) {
 
             this.setState({
-                isLoading: isLoading,
+                isLoading,
                 //randomNewUsers: randomNewUsers
             });
 
@@ -105,8 +108,10 @@ class Home extends PureComponent{
 }
 
 Home.propTypes = {
-    homeProps: PropTypes.shape({
+    basicProps: PropTypes.shape({
         isLoading: PropTypes.boolean,
+    }),
+    homeProps: PropTypes.shape({
         randomNewUsers: PropTypes.array,
     }),
 };

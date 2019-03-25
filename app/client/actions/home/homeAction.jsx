@@ -1,7 +1,12 @@
 
 import axios from 'axios'
 
-import { IS_LOADING, REQUEST_SUCCESS, REQUEST_FAILED } from '../../constans/actionTypes'
+import { GET_NEW_USERS_LIST, GET_PENDING_REVIEWS_LIST} from '../../constans/actionTypes';
+import {isLoading, requestFailed} from './../basic/basicAction';
+
+/*
+ * GET HOME DATA solo func
+ */
 
 export function getRandomNewUsers(number){
     return (dispatch) => {
@@ -12,40 +17,59 @@ export function getRandomNewUsers(number){
 
             .then(function (data) {
 
+                dispatch(getNewUsersList(data));
+
                 dispatch(isLoading(false));
-
-                dispatch(requestSuccess(data));
-
 
             })
 
             .catch(function (error) {
 
+                dispatch(requestFailed(error));
+
                 dispatch(isLoading(false));
 
-                dispatch(requestFailed(error));
             })
 
     }
 }
 
-export function requestFailed(error) {
+export function getPendingReviews(number){
+    return (dispatch) => {
+
+        dispatch(isLoading(true));
+
+        axios.get(`https://randomuser.me/api/?results=${number}`)
+
+            .then(function (data) {
+
+                dispatch(getPendingReviewsList(data));
+
+                dispatch(isLoading(false));
+
+            })
+
+            .catch(function (error) {
+
+                dispatch(requestFailed(error));
+
+                dispatch(isLoading(false));
+
+            })
+
+    }
+}
+
+export function getNewUsersList(data) {
     return {
-        type: REQUEST_FAILED,
-        error
+        type: GET_NEW_USERS_LIST,
+        data
     };
 }
 
-export function isLoading(bool) {
+export function getPendingReviewsList(data) {
     return {
-        type: IS_LOADING,
-        isLoading: bool
-    };
-}
-
-export function requestSuccess(data) {
-    return {
-        type: REQUEST_SUCCESS,
+        type: GET_PENDING_REVIEWS_LIST,
         data
     };
 }

@@ -1,5 +1,5 @@
 
-import { CHANGE_MENU_STATE, IS_LOADING } from '../../constans/actionTypes'
+import {CHANGE_MENU_STATE, IS_LOADING, REQUEST_FAILED, REQUEST_SUCCESS} from "../../constans/actionTypes"
 
 export function changeMenuState(state){
     return {
@@ -8,10 +8,23 @@ export function changeMenuState(state){
     }
 }
 
-/*export function isLoading(state){
+export function requestFailed(error) {
+    return {
+        type: REQUEST_FAILED,
+        error
+    };
+}
+
+export function isLoading(bool) {
     return {
         type: IS_LOADING,
-        loading: state
-    }
-}*/
+        isLoading: bool
+    };
+}
 
+export function requestSuccess(data) {
+    return {
+        type: REQUEST_SUCCESS,
+        data
+    };
+}

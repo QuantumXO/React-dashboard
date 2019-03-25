@@ -1,38 +1,41 @@
 'use strict';
 
-import { IS_LOADING, REQUEST_SUCCESS, REQUEST_FAILED } from '../constans/actionTypes';
+import {
+    REQUEST_FAILED,
+    GET_NEW_USERS_LIST,
+    GET_PENDING_REVIEWS_LIST
+} from "./../constans/actionTypes";
 
 const initialState = {
-    randomNewUsers: [],
     error: '',
-    isLoading: true
+    randomNewUsers: [],
+    pendingReviews: [],
 };
 
 export default function homeReducer(state = initialState, action) {
 
     switch (action.type){
 
-        case IS_LOADING:
-
-            return {
-                ...state,
-                isLoading: true
-            };
-
-        case REQUEST_FAILED:
-
-            return {
-                ...state,
-                isLoading: false
-            };
-
-        case REQUEST_SUCCESS:
+        case GET_NEW_USERS_LIST: // REQUEST_SUCCESS
 
             return {
                 ...state,
                 randomNewUsers: [...action.data.data.results],
-                isLoading: false
             };
+
+        case GET_PENDING_REVIEWS_LIST: // REQUEST_SUCCESS
+
+            return {
+                ...state,
+                pendingReviews: [...action.data.data.results],
+            };
+
+        case REQUEST_FAILED:
+            return {
+                ...state,
+                error: action.error // ...
+            };
+
 
         default:
             return state;
