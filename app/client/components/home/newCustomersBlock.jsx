@@ -23,7 +23,7 @@ class NewCustomersBlock extends PureComponent{
                 <li className="home__block__item" key={i} >
 
                     <Link to={`customer/${i}`} className='link clearfix'>
-                        <img src={item.picture.large} alt="customer photo" width='40' />
+                        <img src={item.picture.thumbnail} alt="customer photo" width='40' />
                         <div className="home__block__content">
                             <span className="capitalize">{item.name.first}</span>&nbsp;
                             <span className="capitalize">{item.name.last}</span>

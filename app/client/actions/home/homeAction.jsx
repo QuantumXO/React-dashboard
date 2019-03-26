@@ -8,16 +8,25 @@ import {isLoading, requestFailed} from './../basic/basicAction';
  * GET HOME DATA solo func
  */
 
-export function getRandomNewUsers(number){
+export function getData(url, type){
+
+    console.log('type: ', type);
+
     return (dispatch) => {
 
         dispatch(isLoading(true));
 
-        axios.get(`https://randomuser.me/api/?results=${number}`)
+        axios.get(url)
 
             .then(function (data) {
 
-                dispatch(getNewUsersList(data));
+                switch (type) {
+                    case 'users':
+                        dispatch(getNewUsersList(data));
+
+                    case 'pendingReviews':
+                        dispatch(getPendingReviewsList(data));
+                }
 
                 dispatch(isLoading(false));
 
@@ -34,31 +43,6 @@ export function getRandomNewUsers(number){
     }
 }
 
-export function getPendingReviews(number){
-    return (dispatch) => {
-
-        dispatch(isLoading(true));
-
-        axios.get(`https://randomuser.me/api/?results=${number}`)
-
-            .then(function (data) {
-
-                dispatch(getPendingReviewsList(data));
-
-                dispatch(isLoading(false));
-
-            })
-
-            .catch(function (error) {
-
-                dispatch(requestFailed(error));
-
-                dispatch(isLoading(false));
-
-            })
-
-    }
-}
 
 export function getNewUsersList(data) {
     return {

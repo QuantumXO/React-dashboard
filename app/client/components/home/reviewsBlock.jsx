@@ -14,43 +14,53 @@ const reviewsListArr = [
     {img: '//robohash.org/ac6f475a26838a9b49169ff19344d98b.png?size=32x32', rating: '2', content: 'Fonvef atufazfok muodil kaj mirzif be ju maz no gim tob leir naig ka it idhib. Wifat mifhatwih wuce cuw evege kipfihim ca zigikras ku ukcem nihduhad rifa. Ca bi bizid vuk mamnifwul cukibhuz irikut sal idelokhug duhu wol nohresu tausudo zoc kevugiew booco ijzi tesufhag. Orkunor ejius he ce er orfi cutef higoke sipgov vozuzwe agci ef bausead zepez idtozoz.'},
 ];
 
-class ReviewsBlock extends PureComponent{
 
-    render(){
 
-        const reviewsList = reviewsListArr.map((item, i) =>
+const ReviewsBlock = ({pendingReviewsList}) => {
+    console.log('pendingReviewsList: ', pendingReviewsList);
+
+    const reviewsList = pendingReviewsList.map((item, i) => {
+
+        let randomRating = Math.round(0 - 0.5 + Math.random() * (5 + 1));
+
+        return (
             <li className="home__block__item" key={i} >
                 <Link to={`reviews/${i}`} className='link'>
-                    <img src={item.img} alt="" width='40' />
+                    <img src={item.picture.thumbnail} alt="" width='40' />
                     <div className="home__block__content">
 
-                        <Stars rating={item.rating} />
+                        <Stars rating={randomRating} />
 
                         <p className='text'>{item.content}</p>
                     </div>
                 </Link>
             </li>
         );
-
-        return(
-            <div className="home__block list reviews">
-                <div className="home__block__header clearfix">
-                    <div className="home__block__info">
-                        <span className="home__block__count">{reviewsListArr.length}</span>
-                        <span className="home__block__sbt">Pending Reviews</span>
-                    </div>
-                    <div className="home__block__icon">
-                        <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" width="54">
-                            <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-                        </svg>
-                    </div>
-                </div>
-                <ul className="home__block__list">
-                    {reviewsList}
-                </ul>
-            </div>
-        )
     }
-}
+
+
+
+    );
+
+  return(
+      <div className="home__block list reviews">
+          <div className="home__block__header clearfix">
+              <div className="home__block__info">
+                  <span className="home__block__count">{reviewsListArr.length}</span>
+                  <span className="home__block__sbt">Pending Reviews</span>
+              </div>
+              <div className="home__block__icon">
+                  <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" width="54">
+                      <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                  </svg>
+              </div>
+          </div>
+          <ul className="home__block__list">
+              {reviewsList}
+          </ul>
+      </div>
+  )
+
+};
 
 export default ReviewsBlock

@@ -35,9 +35,10 @@ class Home extends PureComponent{
     componentDidMount() {
 
         const randomNumber =  Math.round(10 - 0.5 + Math.random() * (25 - 10 + 1));
+        const randomNumberPendingReviews =  Math.round(5 - 0.5 + Math.random() * (10 - 5 + 1));
 
-        this.props.homeAction.getRandomNewUsers(randomNumber);
-        this.props.homeAction.getPendingReviews(randomNumber);
+        this.props.homeAction.getData(`https://randomuser.me/api/?results=${randomNumber}`, 'users');
+        this.props.homeAction.getData(`https://randomuser.me/api/?results=${randomNumberPendingReviews}`, 'pendingReviews');
 
     }
 
@@ -97,7 +98,7 @@ class Home extends PureComponent{
                 </div>
 
                 <div className="home__inner">
-                    <ReviewsBlock />
+                    <ReviewsBlock pendingReviewsList={this.props.homeProps.pendingReviews} />
                     <NewCustomersBlock randomNewUserslist={this.props.homeProps.randomNewUsers} />
                 </div>
 
