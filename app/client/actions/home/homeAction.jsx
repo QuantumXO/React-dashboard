@@ -20,13 +20,7 @@ export function getData(url, type){
 
             .then(function (data) {
 
-                switch (type) {
-                    case 'users':
-                        dispatch(getNewUsersList(data));
-
-                    case 'pendingReviews':
-                        dispatch(getPendingReviewsList(data));
-                }
+                dispatch(getNewUsersList(data));
 
                 dispatch(isLoading(false));
 
@@ -51,9 +45,9 @@ export function getNewUsersList(data) {
     };
 }
 
-export function getPendingReviewsList(data) {
+/*export function getPendingReviewsList(data) {
     return {
         type: GET_PENDING_REVIEWS_LIST,
         data
     };
-}
+}*/

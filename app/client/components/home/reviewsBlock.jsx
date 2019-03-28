@@ -1,8 +1,7 @@
 
 'use strict';
 
-import React, {PureComponent} from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Stars from './stars'
@@ -12,35 +11,26 @@ const reviewsListArr = [
     {img: '//robohash.org/a1d9d0b81e3ea5bf481091bb115b93e9.png?size=32x32', rating: '5', content: 'Fevi uf jav mena je pauce zeda po atadrul kon budtupwe fehlieba dukreri huchahpag corerabo miene aptif. Okuruzo akbebcin kunobag sazhun jusorin guhbor hunopifo nugmob ki su apabuha ga jekbejvo fig nuep. Zi gub duki nahne zomubha zavahik we ru penmuit madunwid se fa infolmar zas wenjimje fojof zine necvez.'},
     {img: '//robohash.org/ac6f475a26838a9b49169ff19344d98b.png?size=32x32', rating: '0', content: 'Fonvef atufazfok muodil kaj mirzif be ju maz no gim tob leir naig ka it idhib. Wifat mifhatwih wuce cuw evege kipfihim ca zigikras ku ukcem nihduhad rifa. Ca bi bizid vuk mamnifwul cukibhuz irikut sal idelokhug duhu wol nohresu tausudo zoc kevugiew booco ijzi tesufhag. Orkunor ejius he ce er orfi cutef higoke sipgov vozuzwe agci ef bausead zepez idtozoz.'},
     {img: '//robohash.org/ac6f475a26838a9b49169ff19344d98b.png?size=32x32', rating: '2', content: 'Fonvef atufazfok muodil kaj mirzif be ju maz no gim tob leir naig ka it idhib. Wifat mifhatwih wuce cuw evege kipfihim ca zigikras ku ukcem nihduhad rifa. Ca bi bizid vuk mamnifwul cukibhuz irikut sal idelokhug duhu wol nohresu tausudo zoc kevugiew booco ijzi tesufhag. Orkunor ejius he ce er orfi cutef higoke sipgov vozuzwe agci ef bausead zepez idtozoz.'},
+    {img: '//robohash.org/bcc15b61fdb63ab18b31cb5cb4428f4f.png?size=32x32', rating: '1', content: 'Citkewku vil zubov iceopror pad abako le hivib femo wuhwag dihfo da. Uti biho lurhiiku bacopbi zez aja sugucul etufonhuc ihuloam alwurca cob opba rozceg. Gi konsonaf cetbi zib botzosam ane umawfa sihhop perkerol fafbij pudbanos kefwof. Fu dugowa pa riwoze ih vosapba sevmakzi giew decgoub ohle sezjojo uco wijebucak kim gi dik. Rasetbac sezil ziilusu ewum gokise fovewokem vipegji iguge hopu arne ter ujumed icajuta vuajoove vukowo.'},
 ];
 
-
-
-const ReviewsBlock = ({pendingReviewsList}) => {
-    console.log('pendingReviewsList: ', pendingReviewsList);
-
-    const reviewsList = pendingReviewsList.map((item, i) => {
-
-        let randomRating = Math.round(0 - 0.5 + Math.random() * (5 + 1));
+const ReviewsBlock = () => {
+    const reviewsList = reviewsListArr.map((item, i) => {
 
         return (
             <li className="home__block__item" key={i} >
                 <Link to={`reviews/${i}`} className='link'>
-                    <img src={item.picture.thumbnail} alt="" width='40' />
+                    <img src={item.img} alt="" width='40' />
                     <div className="home__block__content">
 
-                        <Stars rating={randomRating} />
+                        <Stars rating={item.rating} />
 
                         <p className='text'>{item.content}</p>
                     </div>
                 </Link>
             </li>
         );
-    }
-
-
-
-    );
+    });
 
   return(
       <div className="home__block list reviews">
@@ -59,7 +49,7 @@ const ReviewsBlock = ({pendingReviewsList}) => {
               {reviewsList}
           </ul>
       </div>
-  )
+  );
 
 };
 

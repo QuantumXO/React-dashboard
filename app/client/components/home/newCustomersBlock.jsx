@@ -5,12 +5,12 @@ import React, { PureComponent } from 'react';
 // Router
 import { Link } from 'react-router-dom';
 
-const newCustomersListArr = [
+/*const newCustomersListArr = [
     {img: '//robohash.org/d4c86ee2c4301b366e4d806b16113e35.png?size=32x32', name: 'Warren Mathis'},
     {img: '//robohash.org/9ab75540de7e60441f7772f2353ac4a7.png?size=32x32', name: 'Adrian Brady'},
     {img: '//robohash.org/fc066b9136c2caaa6c13c7f10aa8c06b.png?size=32x32', name: 'Willie Carr'},
     {img: '//robohash.org/e4a2e2e950f48836cff1374bf2d6b9a1.png?size=32x32', name: 'Bettie Jensen'},
-];
+];*/
 
 class NewCustomersBlock extends PureComponent{
 

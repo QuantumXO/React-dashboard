@@ -14,8 +14,8 @@ import * as basicAction from "../../actions/basic/basicAction";
 
 import Preloader from "../ordersList/ordersList";
 import Button from './../../components/default/button';
-import DeleteConfirm from './../../components/order/deleteConfirm';
 import DataTable from './../../components/order/dataTable';
+import DeleteConfirm from './../../components/order/deleteConfirm';
 
 class Order extends PureComponent{
 
@@ -34,9 +34,10 @@ class Order extends PureComponent{
 
         this.deleteOrder = this.deleteOrder.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
+        this.saveNewStatus = this.saveNewStatus.bind(this);
         this.handleListState = this.handleListState.bind(this);
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
         this.handleDeleteState = this.handleDeleteState.bind(this);
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
 
         this.getListRef = React.createRef();
     }
@@ -52,6 +53,10 @@ class Order extends PureComponent{
         if ((!domNode || !domNode.contains(target)) && !target.classList.contains('status-inner')){
             this.setState({listShow: false});
         }
+    }
+
+    saveNewStatus(){
+
     }
 
     handleDeleteState(){
@@ -81,6 +86,7 @@ class Order extends PureComponent{
         this.props.orderAction.getOrderData(orderId);
 
     }
+
     componentWillUnmount() {
         document.body.removeEventListener('click', this.handleOutsideClick, false);
     }
@@ -110,7 +116,9 @@ class Order extends PureComponent{
                 return item !== this.state.currentStatus;
             }
         }).map((item, i) => (
-            <li key={i} className="order__status__item"><span>{item}</span></li>
+            <li key={i} className="order__status__item">
+                <span>{item}</span>
+            </li>
         ));
 
         if(this.state.deleteState){
@@ -199,7 +207,7 @@ class Order extends PureComponent{
                                     <Button
                                         iconName="save"
                                         content="save"
-                                        handleClickFunc={this.refresh}
+                                        handleClickFunc={this.saveNewStatus}
                                         classes={'default__btn save'}
                                     />
                                 </div>

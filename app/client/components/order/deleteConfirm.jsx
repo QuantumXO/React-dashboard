@@ -1,7 +1,6 @@
 'use strict';
 
 import React, {PureComponent, Component} from 'react';
-//import {Helmet} from "react-helmet";
 import Button from "./../default/button";
 import {Helmet} from "react-helmet";
 

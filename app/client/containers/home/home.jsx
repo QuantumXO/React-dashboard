@@ -35,10 +35,8 @@ class Home extends PureComponent{
     componentDidMount() {
 
         const randomNumber =  Math.round(10 - 0.5 + Math.random() * (25 - 10 + 1));
-        const randomNumberPendingReviews =  Math.round(5 - 0.5 + Math.random() * (10 - 5 + 1));
 
         this.props.homeAction.getData(`https://randomuser.me/api/?results=${randomNumber}`, 'users');
-        this.props.homeAction.getData(`https://randomuser.me/api/?results=${randomNumberPendingReviews}`, 'pendingReviews');
 
     }
 
