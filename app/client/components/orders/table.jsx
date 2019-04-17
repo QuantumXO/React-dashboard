@@ -1,10 +1,10 @@
 'use strict';
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from 'react';
 // Router
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import SortBtn from './sortBtn'
+import SortBtn from '../default/sortBtn';
 
 class OrdersTable extends PureComponent{
 
@@ -125,10 +125,10 @@ class OrdersTable extends PureComponent{
                         <td className='tbody__date'><span>{item.date},&nbsp;{item.time}</span></td>
                         <td><span>{item.reference}</span></td>
                         <td>
-                            <a href={'/customer/' + i} className='orders__list__link'>
+                            <Link to={'/customer/' + i} className='orders__list__link'>
                                 <img src={item.img} alt=""/>
                                 <span>{item.customer}</span>
-                            </a>
+                            </Link>
                         </td>
                         <td className='tbody__nbItems'><span>{item.nbItems}</span></td>
                         <td className='tbody__total'><span>{item.total}&nbsp;$</span></td>
@@ -169,7 +169,8 @@ class OrdersTable extends PureComponent{
                         </th>
                         <th>
                             <SortBtn sortFunc={this.sort}
-                                title={'Date'} active={this.state.sortBy}
+                                title={'Date'}
+                                 active={this.state.sortBy}
                                  direction={this.state.direction} btnClass={'date'}
                             />
                         </th>
@@ -210,7 +211,7 @@ class OrdersTable extends PureComponent{
                             />
 
                         </th>
-                        <th />
+                        <th />  {/* <-- need to free space*/}
                     </tr>
                 </thead>
                 {orders.length ? (

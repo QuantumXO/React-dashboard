@@ -112,7 +112,7 @@ class Search extends PureComponent{
         );
 
         return(
-            <div className="orders_search__wrap clearfix">
+            <div className="orders__search__wrap clearfix">
                 {fields}
             </div>
         )

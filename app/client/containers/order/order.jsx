@@ -7,15 +7,17 @@ import PropTypes from 'prop-types';
 import {Helmet} from "react-helmet";
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+// Router
+import { Redirect } from 'react-router-dom'
 import React, {PureComponent, Component} from 'react';
 
 import * as orderAction from '../../actions/order/orderAction';
 import * as basicAction from "../../actions/basic/basicAction";
 
-import Preloader from "../ordersList/ordersList";
 import Button from './../../components/default/button';
 import DataTable from './../../components/order/dataTable';
 import DeleteConfirm from './../../components/order/deleteConfirm';
+import Preloader from "../home/home";
 
 class Order extends PureComponent{
 
@@ -56,6 +58,17 @@ class Order extends PureComponent{
     }
 
     saveNewStatus(){
+
+        if(this.state.newStatus){
+
+            const id = this.props.orderProps.order.id;
+
+            this.props.orderAction.setNewOrderStatus(id, this.state.newStatus);
+
+            if(!this.props.isLoading){
+                this.props.history.push('/orders');
+            }
+        }
 
     }
 
@@ -120,6 +133,12 @@ class Order extends PureComponent{
                 <span>{item}</span>
             </li>
         ));
+
+        if(this.props.isLoading){
+            return(
+                <Preloader />
+            )
+        }
 
         if(this.state.deleteState){
             return(
@@ -242,6 +261,7 @@ Order.propTypes = {
     orderProps: PropTypes.shape({
         texRate: PropTypes.number,
         delivery: PropTypes.number,
+
         order: PropTypes.shape({
             customer: PropTypes.string,
             id: PropTypes.number,

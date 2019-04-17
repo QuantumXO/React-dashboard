@@ -7,6 +7,7 @@ import {
     HANDLE_CHECK_ALL,
     HANDLE_CHECK_ITEM,
     DELETE_ITEM, DELETE_ORDER,
+    SET_NEW_ORDER_STATUS,
 } from "../constans/actionTypes";
 
 let deletedOrders = sessionStorage.getItem('deletedOrders');
@@ -31,6 +32,9 @@ const initialState = {
 };
 
 export default function ordersReducer(state = initialState, action) {
+
+    let orders;
+
 
     switch (action.type){
         case HANDLE_FILTER_FIELD_STATE:
@@ -64,7 +68,7 @@ export default function ordersReducer(state = initialState, action) {
 
         case HANDLE_CHECK_ITEM:
             if(state.checkedItems.indexOf(action.checkedItem) !== -1){
-                const newState = state.checkedItems.filter(item => (item != action.checkedItem));
+                const newState = state.checkedItems.filter(item => (item !== action.checkedItem));
                 return {
                     ...state,
                     checkedItems: [...newState]
@@ -77,13 +81,27 @@ export default function ordersReducer(state = initialState, action) {
             }
 
         case DELETE_ORDER:
-            const orders = state.orders.filter(function(item) {
+            orders = state.orders.filter(function(item) {
                 return item.id !== action.orderId;
             });
 
             return {
                 ...state,
                 orders: orders
+            };
+
+        case SET_NEW_ORDER_STATUS:
+
+            const order = state.orders.filter(item => item.id === action.data.id);
+            let indexOfOrder = state.orders.indexOf(order[0]);
+
+            order[0].status = action.data.status;
+
+            state.orders.splice(indexOfOrder, 1,order[0]);
+
+            return {
+                ...state,
+                orders: state.orders,
             };
 
         case DELETE_ITEM:

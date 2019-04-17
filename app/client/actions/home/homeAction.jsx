@@ -10,8 +10,6 @@ import {isLoading, requestFailed} from './../basic/basicAction';
 
 export function getData(url, type){
 
-    console.log('type: ', type);
-
     return (dispatch) => {
 
         dispatch(isLoading(true));

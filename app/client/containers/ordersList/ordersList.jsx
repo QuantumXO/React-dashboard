@@ -27,9 +27,6 @@ class OrdersList extends Component{
             searchData: [], // [{type: '', value: ''}]
             coincidence: '', // for highlight
             upd: false,
-            //isLoading: this.props.basicProps.isLoading,
-            //checkedAll: this.props.ordersListProps.checkedAll,
-            //checkedItems: this.props.ordersListProps.checkedItems,
             showFilterList: false,
         };
 
@@ -172,7 +169,7 @@ class OrdersList extends Component{
 
         }
 
-        if(this.state.isLoading){
+        if(this.props.isLoading){
             return(
                 <Preloader />
             )
