@@ -67,6 +67,23 @@ class CustomersTable extends PureComponent{
         const customers = customersList.map((item, i) => {
 
             let randomOrdersNum = Math.round(1 - 0.5 + Math.random() * (10 - 1 + 1));
+            let randomTotalSpent = Math.round(0 - 0.5 + Math.random() * (2000 - 0 + 1));
+            let randomNews = Math.round(0 - 0.5 + Math.random() * (1 - 0 + 1));
+            let id = i;
+            let date = new Date(item.registered.date);
+            let month = date.getMonth();
+            let year = date.getFullYear();
+            let day = date.getDate();
+
+            month += 1;
+
+            if(month.toString().length < 2){
+                month = '0' + month;
+            }
+
+            if(day.toString().length < 2){
+                day = '0' + day;
+            }
 
             return(
                 <tr key={i}>
@@ -85,23 +102,40 @@ class CustomersTable extends PureComponent{
                     <td className='tbody__name'>
 
                         <Link to={'/customer/' + i} className='customers__list__link'>
-                            <img src={item.picture.thumbnail} alt />
-                            <span>{item.name.first}&nbsp;{item.name.last}</span>
+                            <img src={item.picture.thumbnail} className='customers__list__photo' alt='' />
+                            <span className='first-name'>{item.name.first}</span>&nbsp;<span className='last-name'>{item.name.last}</span>
                         </Link>
-
 
                     </td>
 
                     <td className='tbody__registered'>
-                        <span>{item.registered.date}</span>
+                        <span>{day + '.' + month + '.' + year}</span>
                     </td>
 
                     <td className='tbody__orders'>
                         <span>{randomOrdersNum}</span>
                     </td>
 
-                    <td className='tbody__orders'>
-                        <span>{randomOrdersNum}</span>
+                    <td className='tbody__total-spent'>
+                        <span>{randomTotalSpent} $</span>
+                    </td>
+
+                    <td className='tbody__news'>
+                        <span>
+                            <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d={randomNews ? 'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z' : 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'} />
+                                </svg>
+                            </svg>
+                        </span>
+                    </td>
+                    <td className='tbody__edit'>
+                        <Link to={'/customer/' + id} className='customers__list__table__btn'>
+                            <svg width='24' focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                            edit
+                        </Link>
                     </td>
                 </tr>
             )
@@ -167,7 +201,7 @@ class CustomersTable extends PureComponent{
                                 btnClass={'news'}
                             />
                         </th>
-                        <th>
+                        {/*<th>
                             <SortBtn
                                 title='Segments'
                                 sortFunc={this.sort}
@@ -175,7 +209,7 @@ class CustomersTable extends PureComponent{
                                 direction={this.state.direction}
                                 btnClass='segments'
                             />
-                        </th>
+                        </th>*/}
                         <th />  {/* <-- need to free space*/}
                     </tr>
                 </thead>
