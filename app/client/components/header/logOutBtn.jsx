@@ -1,18 +1,39 @@
 'use strict';
 
-import React, {PureComponent} from 'react'
+import {CVTMEDOWN_LOG_IN} from "../../constans/actionTypes";
+
+import React, {PureComponent} from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class logOutBtn extends PureComponent{
 
     constructor(props){
         super(props);
 
+        this.state = {
+            logOut: false
+        };
+
         this.handleAuth = this.handleAuth.bind(this);
     }
 
-    handleAuth(){}
+    handleAuth(){
+        this.props.logOutFunc(false);
+
+        localStorage.removeItem(CVTMEDOWN_LOG_IN);
+
+        this.setState({logOut: true});
+
+    }
 
     render(){
+
+        if(this.state.logOut){
+            return(
+                <Redirect to='/login' />
+            )
+        }
+
         return(
             <div className="header__block">
                 <span className="header__logOut" onClick={this.handleAuth}>

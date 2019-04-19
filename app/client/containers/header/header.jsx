@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as basicAction from '../../actions/basic/basicAction'
+import * as loginAction from '../../actions/login/loginAction'
 
 import LogOutBtn from './../../components/header/logOutBtn'
 
@@ -38,7 +39,7 @@ class Header extends Component{
                     </span>
                     <h1 className="header__title">{this.props.basicProps.author} Admin Panel</h1>
                 </div>
-                <LogOutBtn  />
+                <LogOutBtn logOutFunc={this.props.loginAction.login} />
             </header>
         )
     }
@@ -53,7 +54,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        basicAction: bindActionCreators(basicAction, dispatch)
+        basicAction: bindActionCreators(basicAction, dispatch),
+        loginAction: bindActionCreators(loginAction, dispatch)
     }
 }
 

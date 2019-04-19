@@ -4,10 +4,15 @@
  */
 
 /// BASIC
+export const CVTMEDOWN_LOG_IN = 'CVTMEDOWN_LOG_IN';
 export const IS_LOADING = 'IS_LOADING';
 export const REQUEST_FAILED = 'REQUEST_FAILED';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
 export const CHANGE_MENU_STATE = 'CHANGE_MENU_STATE';
+
+/// LOGIN
+export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';
 
 /// ORDERS_LIST
 export const HANDLE_CHECK_ALL = 'HANDLE_CHECK_ALL';

@@ -1,5 +1,11 @@
 
-import {CHANGE_MENU_STATE, IS_LOADING, REQUEST_FAILED, REQUEST_SUCCESS} from "../../constans/actionTypes"
+import {
+    CHANGE_MENU_STATE,
+    IS_LOADING,
+    REQUEST_FAILED,
+    REQUEST_SUCCESS,
+} from "../../constans/actionTypes";
+
 
 export function changeMenuState(state){
     return {

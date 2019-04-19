@@ -2,12 +2,14 @@
 
 import './_home.sass';
 
+import {CVTMEDOWN_LOG_IN} from "../../constans/actionTypes"
+
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import { Helmet } from "react-helmet";
 import {bindActionCreators} from "redux";
 import React, { PureComponent } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Redirect } from 'react-router-dom';
 
 import Preloader from "./../../components/default/preloader";
 import RevenueBlock from './../../components/home/revenueBlock';
@@ -24,7 +26,11 @@ class Home extends PureComponent{
     constructor(props){
         super(props);
 
+        const getLogInStatus = localStorage.getItem(CVTMEDOWN_LOG_IN);
+
+
         this.state = {
+            loggedIn: getLogInStatus ? true : false,
             isLoading: true,
             randomNewUsers: [],
             pendingReviews: [],
@@ -32,7 +38,7 @@ class Home extends PureComponent{
 
     }
 
-    componentDidMount() {
+    componentDidMount(){
 
         const randomNumber =  Math.round(10 - 0.5 + Math.random() * (25 - 10 + 1));
 
@@ -55,6 +61,12 @@ class Home extends PureComponent{
     }
 
     render(){
+
+        if(!this.state.loggedIn){
+            return(
+                <Redirect to='/login' />
+            )
+        }
 
         if(this.state.isLoading){
             return(

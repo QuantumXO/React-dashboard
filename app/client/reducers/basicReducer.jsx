@@ -3,13 +3,13 @@
 import {CHANGE_MENU_STATE, IS_LOADING} from "../constans/actionTypes";
 
 const initialState = {
-
     author: 'CVTMEDOWN',
     version: 'v2',
+    defaultLogin: 'admin',
+    defaultPassword: '123',
     dateOfStart: '01/03/2019',
     menuLinksHide: false,
     isLoading: true,
-
 };
 
 export default function basicReducer(state = initialState, action) {

@@ -1,13 +1,14 @@
 'use strict';
 
 import { combineReducers } from "redux";
-import { connectRouter } from 'connected-react-router'
+import { connectRouter } from 'connected-react-router';
 
-import basicReducer from './basicReducer'
-import ordersReducer from './ordersReducer'
-import orderReducer from './orderReducer'
-import homeReducer from './homeReducer'
-import customersReducer from './customersReducer'
+import homeReducer from './homeReducer';
+import basicReducer from './basicReducer';
+import orderReducer from './orderReducer';
+import loginReducer from './loginReducer';
+import ordersReducer from './ordersReducer';
+import customersReducer from './customersReducer';
 
 export default (history) => combineReducers({
     basicReducer,
@@ -15,6 +16,7 @@ export default (history) => combineReducers({
     orderReducer,
     homeReducer,
     customersReducer,
+    loginReducer,
     router: connectRouter(history),
 });
 
