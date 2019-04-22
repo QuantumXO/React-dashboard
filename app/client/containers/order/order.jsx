@@ -18,15 +18,18 @@ import Button from './../../components/default/button';
 import DataTable from './../../components/order/dataTable';
 import DeleteConfirm from './../../components/order/deleteConfirm';
 import Preloader from "../home/home";
+import {CVTMEDOWN_LOG_IN} from "../../constans/actionTypes";
 
 class Order extends PureComponent{
 
     constructor(props, context){
         super(props, context);
 
+        const getLogInStatus = localStorage.getItem(CVTMEDOWN_LOG_IN);
         const order = this.props.orderProps.order;
 
         this.state = {
+            loggedIn: getLogInStatus ? true : false,
             orderData: order,
             listShow: false,
             currentStatus: '',
@@ -133,6 +136,12 @@ class Order extends PureComponent{
                 <span>{item}</span>
             </li>
         ));
+
+        if(!this.state.loggedIn){
+            return(
+                <Redirect to='/login' />
+            )
+        }
 
         if(this.props.isLoading){
             return(

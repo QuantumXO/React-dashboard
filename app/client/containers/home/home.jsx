@@ -28,7 +28,6 @@ class Home extends PureComponent{
 
         const getLogInStatus = localStorage.getItem(CVTMEDOWN_LOG_IN);
 
-
         this.state = {
             loggedIn: getLogInStatus ? true : false,
             isLoading: true,

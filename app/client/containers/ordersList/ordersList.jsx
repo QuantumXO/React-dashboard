@@ -17,13 +17,18 @@ import FilterList from './../../components/orders/FilterList';
 import * as filterAction from '../../actions/ordersList/filterAction';
 import * as tableAction from '../../actions/ordersList/tableAction';
 import * as basicAction from '../../actions/basic/basicAction';
+import {CVTMEDOWN_LOG_IN} from "../../constans/actionTypes";
+import {Redirect} from "react-router-dom";
 
 class OrdersList extends Component{
 
     constructor(props){
         super(props);
 
+        const getLogInStatus = localStorage.getItem(CVTMEDOWN_LOG_IN);
+
         this.state = {
+            loggedIn: getLogInStatus ? true : false,
             searchData: [], // [{type: '', value: ''}]
             coincidence: '', // for highlight
             upd: false,
@@ -167,6 +172,12 @@ class OrdersList extends Component{
 
             }
 
+        }
+
+        if(!this.state.loggedIn){
+            return(
+                <Redirect to='/login' />
+            )
         }
 
         if(this.props.isLoading){

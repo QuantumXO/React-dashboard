@@ -1,13 +1,14 @@
 'use strict';
 
 import './_customers.sass';
+import {CVTMEDOWN_LOG_IN} from "../../constans/actionTypes";
 
 import PropTypes from 'prop-types';
 import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
+import {Redirect} from "react-router-dom";
 import { bindActionCreators } from 'redux';
-
 
 import Preloader from "../ordersList/ordersList";
 import Button from './../../components/default/button';
@@ -23,6 +24,11 @@ class Customers extends Component{
     constructor(props){
         super(props);
 
+        const getLogInStatus = localStorage.getItem(CVTMEDOWN_LOG_IN);
+
+        this.state = {
+            loggedIn: getLogInStatus ? true : false,
+        };
 
         this.search = this.search.bind(this);
         this.refresh = this.refresh.bind(this);
@@ -58,12 +64,17 @@ class Customers extends Component{
         const randomNumber =  Math.round(10 - 0.5 + Math.random() * (50 - 10 + 1));
 
         this.props.customersAction.getData(`https://randomuser.me/api/?results=${randomNumber}`);
-
     }
 
     render(){
 
         const {checkedAll, checkedItems, searchFields, customersList} = this.props.customersListProps;
+
+        if(!this.state.loggedIn){
+            return(
+                <Redirect to='/login' />
+            )
+        }
 
         if(this.props.isLoading){
             return(
